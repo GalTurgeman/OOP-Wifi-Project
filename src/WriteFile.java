@@ -54,6 +54,7 @@ public class WriteFile {
 	 * @throws FileNotFoundException 
 	 */
 	public void CollectTheSameWifi(LinkedList<Wifi> list) { 
+		KmlWriter kml;
 		try{
 			pw.print("TIME,ID,LAT,LON,ALT,Number Of Networks");
 			for (int i = 1; i <= INITIAL.getOneLineWifiCount(); i++) {
@@ -73,6 +74,8 @@ public class WriteFile {
 					//keep write the same wifis
 					tmp.add(list.get(j));
 					j++;
+					if(j == list.size())
+						break;
 				}
 				
 				SortTheWifiListRssi(tmp); //tested , working
@@ -94,7 +97,7 @@ public class WriteFile {
 		}catch(Exception ex){
 			System.out.println("Some problem" + ex);
 		}
-
+		kml = new KmlWriter(list);
 		System.out.println("done.");	
 	}
 
