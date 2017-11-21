@@ -8,16 +8,41 @@ import java.util.LinkedList;
 import de.micromata.opengis.kml.v_2_2_0.*;
 
 public class KmlWriter {
-	
-	public void WriteKml(LinkedList<Wifi> list) throws FileNotFoundException{
-		Kml k = new Kml();
-		k.createAndSetPlacemark()
-		   .withName("London, UK").withOpen(Boolean.TRUE)
-				.createAndSetPoint().addToCoordinates(-0.126236, 51.500152);
-		//marshals to console
-		//k.marshal();
-		//marshals into file
-		k.marshal(new File("finalKml.kml"));
-	}
 
+
+	/**
+	 * @param LinkedList
+	 * @return 
+	 * @throws FileNotFoundException
+	 */
+	private LinkedList<Wifi> list;
+
+	public KmlWriter(LinkedList<Wifi> list){
+		this.list = list;
+		KMLWriter(list);
+	}
+	public void KMLWriter(LinkedList<Wifi> ls) {
+		Kml kml = new Kml();
+		Document d = kml.createAndSetDocument();
+		for(int i=0; i<ls.size(); i++)
+		{
+			d.createAndSetTimeSpan();
+			d.createAndAddPlacemark()
+			.withName(ls.get(i).getSSID())
+			.withDescription("\n "+ls.get(i).ShortToString())
+			.createAndSetPoint().addToCoordinates(
+					Double.parseDouble(ls.get(i).getLON()),
+					Double.parseDouble(ls.get(i).getLAT()), 
+					Double.parseDouble(ls.get(i).getALT())
+					);
+		}
+		//marshals to console
+		kml.marshal();
+		//marshals into file
+		try {
+			kml.marshal(new File("/Users/gal/Desktop/Kml.kml"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}	
+	}	
 }
