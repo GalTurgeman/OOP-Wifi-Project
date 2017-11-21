@@ -55,6 +55,30 @@ public class Wifi {
 	/**
 	 * 
 	 */
+	/**
+	 -	 * Constructor for the KML file
+	 -	 * the int i is never used, he is there to recognize between the two constracturs. 
+	 -	 * @param TIME
+	 -	 * @param ID
+	 -	 * @param LAT
+	 -	 * @param LON
+	 -	 * @param ALT
+	 -	 * @param SSID
+	 -	 * @param MAC
+	 -	 * @param Frequency
+	 -	 * @param Signal
+	 -	 */
+	 	public Wifi(String[] toKML, int i){
+	 		this.Time =toKML[0]; 
+	 		this.model =toKML[1];
+	 		this.LAT =toKML[2];
+	 		this.LON =toKML[3];
+	 		this.ALT =toKML[4];
+	 		this.SSID =toKML[5];
+	 		this.MAC =toKML[6];
+	 		this.Channel =toKML[7];
+	 		this.RSSI =toKML[8];
+	 	}
 	public Wifi(){
 		this.MAC = "";
 		this.SSID = "";
