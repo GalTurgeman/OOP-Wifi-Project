@@ -34,10 +34,10 @@ public class WriteFile {
 		System.out.println("Reading file .... ");
 		rf.ReadingFile();
 		//tempOne = new LinkedList<Wifi>();
-		tempOne = rf.getWifiList();
-		//		for(Wifi a: rf.getWifiList()){ // TODO : repair
-		//			tempOne.add(a);
-		//		}
+		tempOne = new LinkedList<Wifi>();
+				for(Wifi a: rf.getWifiList()){ 
+					tempOne.add(a);
+				}
 		CollectTheSameWifi(tempOne);
 	}
 
@@ -54,7 +54,7 @@ public class WriteFile {
 	 * @throws FileNotFoundException 
 	 */
 	public void CollectTheSameWifi(LinkedList<Wifi> list) { 
-		KmlWriter kml;
+	//	KmlWriter kml;
 		try{
 			pw.print("TIME,ID,LAT,LON,ALT,Number Of Networks");
 			for (int i = 1; i <= INITIAL.getOneLineWifiCount(); i++) {
@@ -97,7 +97,7 @@ public class WriteFile {
 		}catch(Exception ex){
 			System.out.println("Some problem" + ex);
 		}
-		kml = new KmlWriter(list);
+	//	kml = new KmlWriter(list);
 		System.out.println("done.");	
 	}
 
