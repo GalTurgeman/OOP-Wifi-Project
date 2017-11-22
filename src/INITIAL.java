@@ -3,7 +3,11 @@ import java.util.LinkedList;
 
 
 public class INITIAL {
-	/**
+	/**This file represents the Settings of the user to initialize the program s.t
+	 * figure set the folder that he wants to read , the folder where to write the new csv (sorted) file
+	 *Also this file contains some parametters of the program s.t the header of right csv file .
+	 
+	 * Description:
 	 * ReadPath = the Root / file.csv
 	 * WritePath = the path to write file.
 	 * 
