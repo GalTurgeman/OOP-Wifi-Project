@@ -3,7 +3,10 @@ import java.io.FileReader;
 import java.util.LinkedList;
 
 public class FilterByLocation{
-	
+	/**NOTE* : Use this class only on Complete SCV file aka the file that are sorted to N members in one line
+	* This class filtering the created final scv file By given location.
+	*
+	*/
 	
 	private static FileReader fr;
 	private static BufferedReader br;
