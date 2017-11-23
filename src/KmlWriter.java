@@ -36,7 +36,7 @@ public class KmlWriter {
 		d.createAndSetTimeSpan().setBegin(ls.getFirst().StringToTime());
 		d.createAndSetTimeSpan().setEnd(ls.getLast().StringToTime());
 		Placemark p = null;
-		
+
 		Icon CellSignal = new Icon().withId("CellSignal");
 		CellSignal.setHref("/Users/gal/git/Wifi_Project/Icons/Cellular.png");
 		
@@ -56,21 +56,25 @@ public class KmlWriter {
 		EmptySignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-Empty.png");
 		for(int i=0; i<ls.size(); i++)
 		{
+	
 			p = kml.createAndSetPlacemark();
 			p.setName(ls.get(i).getSSID());
-			p.setDescription("\n "+ls.get(i).ShortToString());
+			p.withDescription("\n "+ls.get(i).ShortToString());
 			p.createAndSetTimeSpan().withBegin(ls.get(i).StringToTime()).withEnd(ls.get(i).StringToTime());
-			if(ls.get(i).getRssiInINT() < 70){//weakest
-				p.createAndAddStyle().createAndSetIconStyle().withScale(0.6).withIcon(EmptySignal);				
+			if(ls.get(i).getRssiInINT() < 70){//Good
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.5).withIcon(FullSignal);				
 			}
-			else if(ls.get(i).getRssiInINT() >= 70 && ls.get(i).getRssiInINT() < 80){//weak
+			else if(ls.get(i).getRssiInINT() >= 70 && ls.get(i).getRssiInINT() < 75){//Normal
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.4).withIcon(OneBarSignal);
+			}
+			else if(ls.get(i).getRssiInINT()>= 75 && ls.get(i).getRssiInINT() < 80){//Weak
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.2).withIcon(TwoBarsSignal);
+			}
+			else if(ls.get(i).getRssiInINT()>= 80 && ls.get(i).getRssiInINT() < 85){//Weakest
 				p.createAndAddStyle().createAndSetIconStyle().withScale(0.8).withIcon(ThreeBarsSignal);
 			}
-			else if(ls.get(i).getRssiInINT()>= 80 && ls.get(i).getRssiInINT() < 86){//normal
-				p.createAndAddStyle().createAndSetIconStyle().withScale(1.0).withIcon(TwoBarsSignal);
-			}
-			else if(ls.get(i).getRssiInINT()>= 86 && ls.get(i).getRssiInINT() < 100){//Good
-				p.createAndAddStyle().createAndSetIconStyle().withScale(1.2).withIcon(FullSignal);
+			else if (ls.get(i).getRssiInINT()>= 85 && ls.get(i).getRssiInINT() < 100){//Bad
+				p.createAndAddStyle().createAndSetIconStyle().withScale(0.6).withIcon(EmptySignal);
 			}
 			else if(ls.get(i).getRssiInINT() >= 100){//Cellular
 				p.createAndAddStyle().createAndSetIconStyle().withScale(0.45).withIcon(CellSignal);
