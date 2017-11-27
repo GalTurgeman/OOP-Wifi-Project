@@ -8,7 +8,9 @@ import java.util.LinkedList;
 public class ReadFile {
 
 	
-	/**
+	/**This class can read Folder, files and deal with unreadable files .
+	 * its read the all folders tree recursivley , at the end we got 2 collection one for the csv files and the other
+	 * for the Wifi members.
 	 * To deal with reading file we need first to deal with
 	 *  1. figure out if the file is a file nor its a folder.
 	 *  2. collect all csv

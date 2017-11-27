@@ -1,7 +1,10 @@
 
 
 import java.util.LinkedList;
-
+/**
+This function is filtering the CSV file by the given model name.
+after the filtering you can use @return: nothing returns, ListToKML list , contains the filtered elements.
+*/
 public class FilterByID{
 	private LinkedList<Wifi> ListToKML;
 	public FilterByID(String ModelName){

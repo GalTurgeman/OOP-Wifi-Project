@@ -36,34 +36,49 @@ public class KmlWriter {
 		d.createAndSetTimeSpan().setBegin(ls.getFirst().StringToTime());
 		d.createAndSetTimeSpan().setEnd(ls.getLast().StringToTime());
 		Placemark p = null;
-//			Style myStyle = new Style().withId("my_style");
-//			myStyle.withIconStyle(new IconStyle().withIcon(new Icon().withHref("blue-pushpin.png")));
-		Icon RedIcon = new Icon().withId("Redicon");
-//		icon.setHref("blue-pushpin.png");
-		RedIcon.setHref("http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png");
-		Icon YellowIcon = new Icon().withId("Yellowicon");
-		YellowIcon.setHref("http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png");
-		Icon GreenIcon = new Icon().withId("Yellowicon");
-		GreenIcon.setHref("http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png");
-//		http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png
+
+		Icon CellSignal = new Icon().withId("CellSignal");
+		CellSignal.setHref("/Users/gal/git/Wifi_Project/Icons/Cellular.png");
+		
+		Icon FullSignal = new Icon().withId("FullSignal");
+		FullSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-Full.png");
+		
+		Icon ThreeBarsSignal = new Icon().withId("3Signal");
+		ThreeBarsSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-3-bars.png");
+		
+		Icon TwoBarsSignal = new Icon().withId("2Signal");
+		TwoBarsSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-2-bars.png");
+		
+		Icon OneBarSignal = new Icon().withId("1Signal");
+		OneBarSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-1-bar.png");
+		
+		Icon EmptySignal = new Icon().withId("NoSignal");
+		EmptySignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-Empty.png");
 		for(int i=0; i<ls.size(); i++)
 		{
-			if(i==1)System.out.println(ls.get(i).getRssiInINT());
-//			p.setStyleUrl("blue
+	
 			p = kml.createAndSetPlacemark();
 			p.setName(ls.get(i).getSSID());
-			p.setDescription("\n "+ls.get(i).ShortToString());
+			p.withDescription("\n "+ls.get(i).ShortToString());
 			p.createAndSetTimeSpan().withBegin(ls.get(i).StringToTime()).withEnd(ls.get(i).StringToTime());
-			if(ls.get(i).getRssiInINT()< 70){
-				p.createAndAddStyle().createAndSetIconStyle().withScale(1.0).withIcon(RedIcon);				
+			if(ls.get(i).getRssiInINT() < 70){//Good
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.5).withIcon(FullSignal);				
 			}
-			else if(ls.get(i).getRssiInINT()> 70 && ls.get(i).getRssiInINT()> 85){
-				p.createAndAddStyle().createAndSetIconStyle().withScale(1.0).withIcon(YellowIcon);
+			if(ls.get(i).getRssiInINT() >= 70 && ls.get(i).getRssiInINT() < 75){//Normal
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.4).withIcon(OneBarSignal);
 			}
-			else{
-				p.createAndAddStyle().createAndSetIconStyle().withScale(1.0).withIcon(GreenIcon);
+			else if(ls.get(i).getRssiInINT()>= 75 && ls.get(i).getRssiInINT() < 80){//Weak
+				p.createAndAddStyle().createAndSetIconStyle().withScale(1.2).withIcon(TwoBarsSignal);
 			}
-
+			else if(ls.get(i).getRssiInINT()>= 80 && ls.get(i).getRssiInINT() < 85){//Weakest
+				p.createAndAddStyle().createAndSetIconStyle().withScale(0.8).withIcon(ThreeBarsSignal);
+			}
+			else if (ls.get(i).getRssiInINT()>= 85 && ls.get(i).getRssiInINT() < 100){//Bad
+				p.createAndAddStyle().createAndSetIconStyle().withScale(0.6).withIcon(EmptySignal);
+			}
+			else if(ls.get(i).getRssiInINT() >= 100){//Cellular
+				p.createAndAddStyle().createAndSetIconStyle().withScale(0.45).withIcon(CellSignal);
+			}
 			p.createAndSetPoint()
 			.addToCoordinates(Double.parseDouble(ls.get(i).getLON()), Double.parseDouble(ls.get(i).getLAT()), Double.parseDouble(ls.get(i).getALT()));
 			d.addToFeature(p);
