@@ -1,5 +1,5 @@
 import java.io.File;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 
 
 public class INITIAL {
@@ -25,6 +25,12 @@ public class INITIAL {
 	public static File fileWritePath = new File(WritePath);
 	
 	private static int OneLineWifiCount = 10;
+	
+	//Filters input:
+		//filter by location // TEST: from the writed file line 6 
+	private static double inputLAT = 32.16737112;
+	private static double inputLON = 34.80947136;
+	private static double inputRadius = 4;
 
 	
 	public static String getCsvHeader() {
@@ -89,6 +95,27 @@ public class INITIAL {
 	}
 	public static void setCsvClientWifiParameters(String csvClientWifiParameters) {
 		INITIAL.csvClientWifiParameters = csvClientWifiParameters;
+	}
+	public static double getInputLAT() {
+		return inputLAT;
+	}
+	public static void setInputLAT(double inputLAT) {
+		INITIAL.inputLAT = inputLAT;
+	}
+	public static double getInputLON() {
+		return inputLON;
+	}
+	public static void setInputLON(double inputLON) {
+		INITIAL.inputLON = inputLON;
+	}
+	public static  double getInputRadius() {
+		return inputRadius;
+	}
+	public static void setInputRadius(double inputRadius) {
+		INITIAL.inputRadius = inputRadius;
+	}
+	public static double getInputRadius_Cube() {
+		return inputRadius*inputRadius;
 	}
 	
 }
