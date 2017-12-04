@@ -16,12 +16,12 @@ public class FilterByLocation implements Filter{
 	 * 
 	 * @MarkGEule
 	 */
-	public static void filter(double LAT, double LON, double radius){
+	public static void filter(double lat, double lon, double radius){
 		try {
 			WifiToKML = new LinkedList<Wifi>();
 			//user input - in the INITIAL.java
 			//program process... s.t reading lines & finding the right data.
-			fr = new FileReader(INITIAL.getFileWritePath());
+			fr = new FileReader(INITIAL.getWritePath()) ; //FileReader(INITIAL.getFileWritePath())
 			br = new BufferedReader(fr);
 			String line = br.readLine();
 			//	boolean flag = true;
@@ -29,7 +29,7 @@ public class FilterByLocation implements Filter{
 				String[] lineArr= line.split(","); // set the readied line to array.
 				double Xpoint = Double.parseDouble(lineArr[2]); // Wifi's Parameters from the data sheets (X,Y)
 				double Ypoint = Double.parseDouble(lineArr[3]);
-				if(check_Point_In_The_Radius(LAT,LON,Xpoint,Ypoint,radius)) {
+				if(check_Point_In_The_Radius(lat,lon,Xpoint,Ypoint,radius)) {
 					insert_Line_asWifi(lineArr);
 				}
 				line = br.readLine();	
