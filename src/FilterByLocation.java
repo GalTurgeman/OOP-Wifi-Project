@@ -4,8 +4,9 @@ import java.util.LinkedList;
 
 public class FilterByLocation implements Filter{
 	/**NOTE* : Use this class only on Complete SCV file aka the file that are sorted to N members in one line
-	 * This class filtering the created final scv file By given location.
-	 *
+	 * This class filtering the data sheet by given by the use the LAT , LON  and radius 
+	 *@return : after filter(double LAT, double LON, double radius) you can get the LinkedList<Wifi> WifiToKML that full with the 
+	 *filterd points.	
 	 */
 
 	private static FileReader fr;
@@ -24,7 +25,7 @@ public class FilterByLocation implements Filter{
 			fr = new FileReader(INITIAL.getFileWritePath());
 			br = new BufferedReader(fr);
 			String line = br.readLine();
-			//	boolean flag = true;
+			line = br.readLine(); // Jumps over the header , stright to the wifi's
 			while( line != null){ // && flag ==true
 				String[] lineArr= line.split(","); // set the readied line to array.
 				double Xpoint = Double.parseDouble(lineArr[2]); // Wifi's Parameters from the data sheets (X,Y)
