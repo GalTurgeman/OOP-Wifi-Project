@@ -1,11 +1,15 @@
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOError;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
 public class WriteFile {
 	private LinkedList<Wifi> tempOne;
+	public LinkedList<Wifi> FineWifiList;
 	private FileWriter fw;
 	private PrintWriter pw;
 	
@@ -18,9 +22,7 @@ public class WriteFile {
 		try{
 			fw = new FileWriter(INITIAL.getFileWritePath());
 			pw = new PrintWriter(fw);
-			
-
-		}catch(Exception e){
+		}catch(IOException e){
 			System.out.println(e);
 		}
 	}
@@ -54,7 +56,8 @@ public class WriteFile {
 	 * @throws FileNotFoundException 
 	 */
 	public void CollectTheSameWifi(LinkedList<Wifi> list) { 
-	//	KmlWriter kml;
+		KmlWriter kml;
+		FineWifiList = new LinkedList<>();
 		try{
 			pw.print("TIME,ID,LAT,LON,ALT,Number Of Networks");
 			for (int i = 1; i <= INITIAL.getOneLineWifiCount(); i++) {
@@ -66,6 +69,8 @@ public class WriteFile {
 			//pw.println(x); //header
 			int j;
 			int i = 0;
+			int counter =0;
+			System.out.println("Writing file ...");
 			for ( i = 0 ,j=0; i < list.size()-1; i=j) {
 				LinkedList<Wifi> tmp = new LinkedList<Wifi>();
 				tmp.add(list.get(i));	//first we what to add the list.i
@@ -80,6 +85,7 @@ public class WriteFile {
 				
 				SortTheWifiListRssi(tmp); //tested , working
 				TakeTheNStrongestByRssi(INITIAL.getOneLineWifiCount(),tmp);//tested , working
+				
 				pw.println();
 				pw.print(tmp.get(0).getTime() + ",");
 				pw.print(tmp.get(0).getModel() + ",");
@@ -87,18 +93,19 @@ public class WriteFile {
 				pw.print(tmp.get(0).getLON() + ",");
 				pw.print(tmp.get(0).getALT() + ",");
 				pw.print((tmp.size()-1) + ",");
-
-				for(int k = 0 ; k< tmp.size()-1; k++){ // print the data of every wifi
+//				System.out.println(counter++ + " "+tmp.size());
+				for(int k = 0 ; k < tmp.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
+					FineWifiList.add(tmp.get(k).get());
 					pw.print(tmp.get(k).getSSID() + " , "+tmp.get(k).getMAC() + " , "+tmp.get(k).getChannel() + " , "+tmp.get(k).getRSSI()+ " , ");
 				}
 			}
 			pw.close();
 			fw.close();
-		}catch(Exception ex){
+		}catch(IOException ex){
 			System.out.println("Some problem" + ex);
 		}
-	//	kml = new KmlWriter(list);
-		System.out.println("done.");	
+//		kml = new KmlWriter(list,"//toWrite/FullKML.kml");
+		System.out.println("done.\nFile in: "+INITIAL.getFileWritePath().getAbsolutePath());	
 	}
 
 	/**
@@ -133,7 +140,7 @@ public class WriteFile {
 			}
 		}
 	}
-
+	
 
 	/**
 	 * Removing from the collection elements that exceed the given amount per line 
@@ -153,7 +160,12 @@ public class WriteFile {
 			return;
 		}
 	}
-
+	public LinkedList<Wifi> getWifiList() {
+		return tempOne;
+	}
+	public LinkedList<Wifi> getFineWifiList(){
+		return FineWifiList;
+	}
 }
 
 

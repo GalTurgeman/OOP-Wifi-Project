@@ -1,9 +1,13 @@
+import java.awt.geom.Point2D;
+
 public class Wifi {
 
 	private String MAC, LAT, LON, SSID, ALT, Crypt;
 	private String Type; // Wifi or GSM
 	private String Channel, RSSI, Time;
 	private String model;
+	private double Weight;
+	private double wLAT,wLON,wALT;//weight lat,lon,alt; gal.
 
 	/*
 	 * Constructors
@@ -33,6 +37,7 @@ public class Wifi {
 		this.ALT = ALT;
 		this.Type = Type;
 		this.model = model;
+		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
 	}
 
 	/**
@@ -50,6 +55,7 @@ public class Wifi {
 		this.ALT = arr[8];
 		this.Type = arr[9];
 		this.model = arr[10];
+		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
 	}
 
 	/**
@@ -68,17 +74,18 @@ public class Wifi {
 	 -	 * @param Frequency
 	 -	 * @param Signal
 	 -	 */
-	 	public Wifi(String[] toKML, int i){
-	 		this.Time =toKML[0]; 
-	 		this.model =toKML[1];
-	 		this.LAT =toKML[2];
-	 		this.LON =toKML[3];
-	 		this.ALT =toKML[4];
-	 		this.SSID =toKML[5];
-	 		this.MAC =toKML[6];
-	 		this.Channel =toKML[7];
-	 		this.RSSI =toKML[8];
-	 	}
+	public Wifi(String[] toKML, int i){
+		this.Time =toKML[0]; 
+		this.model =toKML[1];
+		this.LAT =toKML[2];
+		this.LON =toKML[3];
+		this.ALT =toKML[4];
+		this.SSID =toKML[5];
+		this.MAC =toKML[6];
+		this.Channel =toKML[7];
+		this.RSSI =toKML[8];
+	}
+
 	public Wifi(){
 		this.MAC = "";
 		this.SSID = "";
@@ -91,6 +98,7 @@ public class Wifi {
 		this.ALT = "";
 		this.Type = "";
 		this.model = "";
+		
 	}
 
 	/**
@@ -188,7 +196,7 @@ public class Wifi {
 	public void setALT(String alt) {
 		this.ALT = alt;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -286,35 +294,107 @@ public class Wifi {
 	public void setTime(String time) {
 		this.Time = time;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public int getRssiInINT(){// TODO rename to getRssiInt
+	public int getRssiInINT(){// TODO rename to getRssiInt, insert without spaces at readfile
+		if(RSSI.contains(""+' ')){
+			RSSI =	RSSI.replaceAll("\\s+", "");
+		}
 		int ans = Integer.parseInt(RSSI)*(-1);
 		return ans;
 	}
-//	
-//	public String[] rearrangeForCsv(){
-//		String[] arr = new String[10];
-//		
-//		arr[6] = this.MAC;
-//		arr[5] = this.SSID;
-//		arr[2] = this.Crypt;
-//		arr[0] = this.Time;
-//		arr[7] = this.Channel;
-//		arr[8] = this.RSSI;
-//		arr[2] = this.LAT;
-//		arr[3] = this.LON;
-//		arr[4] = this.ALT;
-//		arr[5] = this.Type;
-//		return arr;
-//	}
-	
-
-	
-
-	
+	public String StringToTime(){
+		String ans = this.Time.replace(' ', 'T');
+		return ans + "Z";
+	}
+	/**Will create a 2D Point and return it.
+	 * using Point2D from:
+	 * java.awt.geom.Point2D;
+	 * 
+	 * @author gal
+	 */
+	public Point2D Get_PubilcGeo(String LAT, String LON){
+		Point2D P = null;
+		P.setLocation(Double.parseDouble(LAT), Double.parseDouble(LON));
+		return P;
+	}
+	/**Will convert LAT as string to double.
+	 * 
+	 * @author gal
+	 */
+	public double getLAT_double(){// TODO rename to getRssiInt, insert without spaces at readfile
+		if(LAT.contains(""+' ')){
+			LAT = LAT.replaceAll("\\s+", "");
+		}
+		double ans = Double.parseDouble(LAT);
+		return ans;
+	}
+	/**Will convert LON as string to double.
+	 * 
+	 * @author gal
+	 */
+	public double getLON_double(){// TODO rename to getRssiInt, insert without spaces at readfile
+		if(LON.contains(""+' ')){
+			LON = LON.replaceAll("\\s+", "");
+		}
+		double ans = Double.parseDouble(LON);
+		return ans;
+	}
+	/**Will convert ALT as string to double.
+	 * 
+	 * @author gal
+	 */
+	public double getALT_double(){// TODO rename to getRssiInt, insert without spaces at readfile
+		if(ALT.contains(""+' ')){
+			ALT = ALT.replaceAll("\\s+", "");
+		}
+		double ans = Double.parseDouble(ALT);
+		return ans;
+	}
+	/**Will set in wifi object weight LAT.
+	 * Using this formula:
+	 * w*getLAT_double;
+	 * @author gal
+	 */
+	public void Set_wLAT(double w){
+		this.wLAT = w*getLAT_double();
+	}
+	/**Will set in wifi object weight LON.
+	 * Using this formula:
+	 * w*getLON_double;
+	 * @author gal
+	 */
+	public void Set_wLON(double w){
+		this.wLON = w*getLON_double();
+	}
+	/**Will set in wifi object weight ALT.
+	 * Using this formula:
+	 * w*getALT_double;
+	 * @author gal
+	 */
+	public void Set_wALT(double w){
+		this.wALT = w*getALT_double();
+	}
+	public double getWeight(){
+		return 1/Math.pow(this.getRSSIAsNum(), 2);
+	}
+	public void SetWeight(){
+		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
+	}
+	public double get_wALT(){
+		return this.wALT;
+	}
+	public double get_wLAT(){
+		return this.wLAT;
+	}
+	public double get_wLON(){
+		return this.wLON;
+	}
+	public double getRSSIAsNum(){
+		return Double.parseDouble(RSSI);
+	}
 }
 
 
