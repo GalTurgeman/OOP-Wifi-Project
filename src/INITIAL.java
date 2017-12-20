@@ -16,6 +16,8 @@ public class INITIAL {
 	private static String ReadPath = "toRead";
 	private static String WritePath = "toWrite//File19112017.csv";
 	private static String WritePathForAlgoA = "toWrite//ALGO_A_File19112017.csv";
+	private static String ReadPathForAlgoBInput ="/Users/gal/Downloads/Ex2/data/TS1/_comb_no_gps_ts1.csv";
+	private static String WritePathForAlgoBInput ="/Users/gal/Downloads/Ex2/data/TS1/Write_comb_no_gps_ts1.csv";
 	private static String suffix = ".csv";
 	private static String csvHeader = "MAC,SSID,AuthMode,FirstSeen,Channel,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,Type";
 	private static String modelName = "model=";
@@ -148,5 +150,17 @@ public class INITIAL {
 	}
 	public static void setWritePathForAlgoA(String writePathForAlgoA) {
 		WritePathForAlgoA = writePathForAlgoA;
+	}
+	public static String getReadPathForAlgoBInput() {
+		return ReadPathForAlgoBInput;
+	}
+	public static void setReadPathForAlgoBInput(String readPathForAlgoBInput) {
+		ReadPathForAlgoBInput = readPathForAlgoBInput;
+	}
+	public static String getWritePathForAlgoBInput() {
+		return WritePathForAlgoBInput;
+	}
+	public static void setWritePathForAlgoBInput(String writePathForAlgoBInput) {
+		WritePathForAlgoBInput = writePathForAlgoBInput;
 	}
 }

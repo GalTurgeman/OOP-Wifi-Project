@@ -4,6 +4,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 
@@ -33,7 +34,7 @@ public class WriteFile {
 	 */
 	public void ReWriteTheData() throws FileNotFoundException{
 		ReadFile rf =new ReadFile();
-		System.out.println("Reading file .... ");
+		System.out.println("Reading file .... \n");
 		rf.ReadingFile();
 		//tempOne = new LinkedList<Wifi>();
 		tempOne = new LinkedList<Wifi>();
@@ -68,11 +69,11 @@ public class WriteFile {
 			//pw.println(x); //header
 			int j;
 			int i = 0;
-			System.out.println("Writing file ...");
+			System.out.println("Writing file ....");
 //			for ( i = 0 ,j=0; i < list.size(); i=j) {
-			for ( i = 0 ,j=0; i < list.size(); i = j) {
+			for ( i = 0 ,j=1; i < list.size(); i = j) {
 				LinkedList<Wifi> tmpListSameTime = new LinkedList<Wifi>();
-				tmpListSameTime.add(list.getFirst());	//first we what to add the list.i
+				tmpListSameTime.add(list.get(i));	//first we what to add the list.i
 				while(Check2Wifis(list.get(i), list.get(j)) ){
 					//keep write the same wifis
 					tmpListSameTime.add(list.get(j));
@@ -81,7 +82,8 @@ public class WriteFile {
 						break;
 				}
 				
-				SortTheWifiListRssi(tmpListSameTime); //tested , working
+				//SortTheWifiListRssi(tmpListSameTime); //tested , working
+				Collections.sort(tmpListSameTime, new sortByRSSI());
 				TakeTheNStrongestByRssi(INITIAL.getOneLineWifiCount(),tmpListSameTime);//tested , working
 
 				pw.println();
@@ -104,7 +106,7 @@ public class WriteFile {
 		}catch(IOException ex){
 			System.out.println("Some problem" + ex);
 		}
-		System.out.println("done.\nFile in: "+INITIAL.getFileWritePath().getAbsolutePath());	
+		System.out.println("File in: "+INITIAL.getFileWritePath().getAbsolutePath()+"\nDone!");	
 	}
 
 	/**

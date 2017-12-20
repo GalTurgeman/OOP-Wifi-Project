@@ -19,9 +19,20 @@ public class LineAlgo2 {
 		this.Sample = Sample;//Line from DB.
 		funcW(this.Sample, this.Input);
 	}
+	/**
+	 * Calculate the Difference between two wifis.
+	 * @param w1
+	 * @param w2
+	 * @return
+	 */
 	private double funcDiff(Wifi w1 , Wifi w2) {
 		return Math.abs(w1.getRSSIAsNum() - w2.getRSSIAsNum());
 	}
+	/**
+	 * Calculate the PI for each Line.
+	 * @param oneLine
+	 * @param input
+	 */
 	private void funcW(LinkedList<Wifi> oneLine , LinkedList<Wifi> input) {
 	double tmp = 0;
 	boolean flag = false;

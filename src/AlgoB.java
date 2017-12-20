@@ -1,11 +1,12 @@
+ import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.*;
 
-import javax.sound.sampled.Line;
+import de.micromata.opengis.kml.v_2_2_0.Point;
+
 
 public class AlgoB {
 	/**
@@ -16,10 +17,13 @@ public class AlgoB {
 	/**Input from the no_gps file, get from ReadInputAlgo2.
 	 * 
 	 */
-	private LinkedList<Wifi> Input_wifi = new LinkedList<Wifi>(); 
+	private LinkedList<Wifi> Input_wifi = new LinkedList<Wifi>();
+	public static LinkedList<double[]> GEO = new LinkedList<double[]>();
 	double sumOfPI = 0;
+	
 
-	public AlgoB(LinkedList<Wifi> input_wifi) {
+	public AlgoB(LinkedList<Wifi> input_wifi ,int n) {
+		Parameters.setNumberAlgoB(n);
 		this.Input_wifi =input_wifi;//get the input wifi line from no gps file.
 		Run();
 	}
@@ -34,7 +38,8 @@ public class AlgoB {
 			InputLines.add(l);
 		}
 		Collections.sort(InputLines, new sortByPI());
-		SumOfPIForTheN(6);
+		SumOfPIForTheN(Parameters.numberAlgoB);
+		calcforPoint(Parameters.numberAlgoB);
 //		System.out.println(Arrays.toString(calcforPoint(6)));
 		/*/Sort
 		 * Take the n-th similiar//maybe to transfer to new collection /
@@ -44,7 +49,7 @@ public class AlgoB {
 
 
 	}
-	public void SumOfPIForTheN(int n) {
+	private void SumOfPIForTheN(int n) {
 		for (int i = 0; i < n && i<InputLines.size(); i++) {//Basicly sum the pi
 			sumOfPI+=InputLines.get(i).getP();
 		}
@@ -52,7 +57,7 @@ public class AlgoB {
 	public double[] calcforPoint(int n) {
 		double [] sum  = new double[3];
 		double [] w_sum = new double [3];
-		LinkedList<Double> GEO = new LinkedList<Double>();
+		
 //		System.out.println(InputLines.size());
 //		System.out.println(Input_wifi.size());
 		for (int i = 0; i < n; i++) {
@@ -75,6 +80,8 @@ public class AlgoB {
 		w_sum[1] = sum[1] /sumOfPI;
 		w_sum[2] = sum[2] /sumOfPI;
 		InputLines.clear();
+		
+		GEO.add(w_sum);
 		return w_sum;
 	}
 }

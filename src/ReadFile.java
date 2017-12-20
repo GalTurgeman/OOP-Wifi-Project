@@ -41,7 +41,7 @@ public class ReadFile {
 	 */
 	public void ReadingFile(){
 		readTheFolder(INITIAL.getFileReadPath()); // Collecting all .csv Files  to csvFiles [ task 2 ] 
-		System.out.println(csvFiles);	
+		System.out.println("Files to read:  \n"+ csvFiles+"\n");	
 		SelectFineCSV(csvFiles); 				  // collection : from the csvFiles the good one to <collection of Wifi> [ task 3 ] 
 		Build_Wifi_Collection(csvFiles); 		  // Collection : building wifi collection from all csv lists. LinkedList<Wifi> [ tast 4 ]  
 

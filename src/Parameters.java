@@ -1,25 +1,30 @@
 
 public class Parameters {
-//	2	power
-//	10000	norm
-//	0.4	sig diff
-//	3	min diff
-//	-120	no signal
-//	100	diff no sig
+
 	public static double power = 2 ;
 	public static double norm = 10000;
 	public static double sigDiff = 0.4;
 	public static double minDiff = 3;
 	public static double noSignal = -120;
 	public static double diffNoSig = 100;
-	public static int number = 3;//do getter setter
+	public static int numberAlgoA = 3;
+	public static int numberAlgoB = 4;
+			
 
-	public static int getNumber() {
-		return number;
+	public static int getNumberAlgoA() {
+		return numberAlgoA;
 	}
 
-	public static void setNumber(int number) {
-		Parameters.number = number;
+	public static void setNumberAlgoA(int numberAlgoA) {
+		Parameters.numberAlgoA = numberAlgoA;
+	}
+
+	public static int getNumberAlgoB() {
+		return numberAlgoB;
+	}
+
+	public static void setNumberAlgoB(int numberAlgoB) {
+		Parameters.numberAlgoB = numberAlgoB;
 	}
 
 	public static double getPower() {
@@ -70,13 +75,5 @@ public class Parameters {
 		Parameters.diffNoSig = diffNoSig;
 	}
 
-//	public Parameters() {
-//		this.power = 2;
-//		this.norm = 10000;
-//		this.sigDiff = 0.4;
-//		this.minDiff = 3;
-//		this.noSignal = -120;
-//		this.diffNoSig = 100;
-//	}
 
 }

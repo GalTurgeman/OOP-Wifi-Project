@@ -1,18 +1,11 @@
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 public class AlgoA{
 
@@ -27,7 +20,9 @@ public class AlgoA{
 	private FileReader fr ;
 	private BufferedReader br;
 	
-	public AlgoA(){
+	public AlgoA(int n){
+		Parameters.setNumberAlgoA(n);
+		System.out.println("Algo 1 will be limit by "+ n +" similiar lines.");
 		ReadComb();
 		AlgoA_Start();
 	}
@@ -38,7 +33,6 @@ public class AlgoA{
 	 */
 	private void ReadComb()  {
 		
-
 			String currentLine = "";
 			String [] currentLineArr;
 			try {
@@ -116,7 +110,7 @@ public class AlgoA{
 		}
 		if(flag){
 			SortTheWifiListRssi(List_With_Same_Mac);
-			int n= Parameters.number;
+			int n= Parameters.numberAlgoA;
 			temp = Calc(List_With_Same_Mac,List_With_Same_Mac.size());
 			WriteToCSVAlgoA();
 			return Arrays.toString(temp);
