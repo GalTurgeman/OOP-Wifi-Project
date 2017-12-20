@@ -1,13 +1,15 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ReadFile {
 
-	
+
 	/**This class can read Folder, files and deal with unreadable files .
 	 * its read the all folders tree recursivley , at the end we got 2 collection one for the csv files and the other
 	 * for the Wifi members.
@@ -31,21 +33,21 @@ public class ReadFile {
 	public ReadFile(){
 		this.csvFiles = new ArrayList<File>();
 		this.WifiList = new LinkedList<Wifi>();
-		
+
 	}
 
 	/**		the Main function of the ReadFile that make in action the class.
 	 * @param
 	 */
-	public  void ReadingFile(){
+	public void ReadingFile(){
 		readTheFolder(INITIAL.getFileReadPath()); // Collecting all .csv Files  to csvFiles [ task 2 ] 
 		System.out.println(csvFiles);	
 		SelectFineCSV(csvFiles); 				  // collection : from the csvFiles the good one to <collection of Wifi> [ task 3 ] 
 		Build_Wifi_Collection(csvFiles); 		  // Collection : building wifi collection from all csv lists. LinkedList<Wifi> [ tast 4 ]  
-	
+
 	}
 
-	
+
 	/**
 	 * function that reads recursivly the files/folders and adding all .csv to one collection.
 	 * @param path
@@ -59,7 +61,6 @@ public class ReadFile {
 			else{
 				if(a.getName().contains(INITIAL.getSuffix())){
 					csvFiles.add(a);
-					
 				}
 			}
 		}
@@ -90,7 +91,7 @@ public class ReadFile {
 		}
 		csvFiles = tmparr;
 	}
-	
+
 	/**
 	 * The function that return the Model name of the searched device i.g Lenovo, Android , Asus etc.
 	 * @param line
@@ -106,8 +107,8 @@ public class ReadFile {
 		}
 		return ansName;
 	}
-	
-	
+
+
 	/**
 	 * Collecting all Wifis from all Csv files.
 	 * @param csvFiles
@@ -123,22 +124,41 @@ public class ReadFile {
 				String[] tmpFirstLine = str.split(",");
 				tmpModelName = SetWifiModel(tmpFirstLine);
 				str = br.readLine(); //TODO BUG : With that line (active) there is "java.lang.NullPointerException" , but all wifis count , Without that line(deactive) =no exception but The program pass one wifi.
-				str= br.readLine();
-				
-				while((str =br.readLine() )!= null){
+				str = br.readLine();
+				if(CheckIfGSM(str)) {
+					str = br.readLine();
+				}
+//								while((str =br.readLine() )!= null){
+				while((str != null)){
+					while(CheckIfGSM(str)) {
+						str = br.readLine();
+					}
 					String[] tmp = str.split(",");
 					tmp[10] = tmpModelName; 	//TODO check is every wifi get the model name. -tested ,  working fine @markG
 					WifiList.add(new Wifi(tmp));
-					//str = br.readLine();
+					str = br.readLine();
+//					System.out.println(WifiList.getFirst().getSSID());
 				}
-				
-			}catch(Exception e){
+
+			}catch(IOException e){
 				System.out.println(e);
 			}
 		}
 	}
-	
-	
+	/**
+	 * CheckIFGSM checks if it is Wifi or GSM.
+	 * return true if it is.
+	 * return false if it is not.
+	 * @param string
+	 * @return boolean
+	 */
+	public boolean CheckIfGSM(String str) {
+		String [] temp = str.split(",");
+		if(temp[temp.length-1].equals("GSM"))
+			return true;
+		return false;
+	}
+
 	/**
 	 * @return TheWifiList  - all wifi's from all Csv files.
 	 */

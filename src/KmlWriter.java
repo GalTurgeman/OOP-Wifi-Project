@@ -5,7 +5,11 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import de.micromata.opengis.kml.v_2_2_0.*;
+import de.micromata.*;
+import de.micromata.opengis.kml.v_2_2_0.Document;
+import de.micromata.opengis.kml.v_2_2_0.Icon;
+import de.micromata.opengis.kml.v_2_2_0.Kml;
+import de.micromata.opengis.kml.v_2_2_0.Placemark;
 
 public class KmlWriter {
 
@@ -21,7 +25,7 @@ public class KmlWriter {
 	/**Constructor for KmlWriter class.
 	 * @param list
 	 */
-	public KmlWriter(LinkedList<Wifi> list,String INI){
+	public KmlWriter(LinkedList<Wifi> list){
 		this.list = list;
 		KMLWriter(list , INITIAL.getWritePathForKML());
 	}
@@ -38,22 +42,22 @@ public class KmlWriter {
 		Placemark p = null;
 
 		Icon CellSignal = new Icon().withId("CellSignal");
-		CellSignal.setHref("/Users/gal/git/Wifi_Project/Icons/Cellular.png");
+		CellSignal.setHref("/Users/gal/git/Wifi_Project/icons/Cellular.png");
 		
 		Icon FullSignal = new Icon().withId("FullSignal");
-		FullSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-Full.png");
+		FullSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Full.png");
 		
 		Icon ThreeBarsSignal = new Icon().withId("3Signal");
-		ThreeBarsSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-3-bars.png");
+		ThreeBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-3-bars.png");
 		
 		Icon TwoBarsSignal = new Icon().withId("2Signal");
-		TwoBarsSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-2-bars.png");
+		TwoBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-2-bars.png");
 		
 		Icon OneBarSignal = new Icon().withId("1Signal");
-		OneBarSignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-1-bar.png");
+		OneBarSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-1-bar.png");
 		
 		Icon EmptySignal = new Icon().withId("NoSignal");
-		EmptySignal.setHref("/Users/gal/git/Wifi_Project/Icons/wifi-Empty.png");
+		EmptySignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Empty.png");
 		for(int i=0; i<ls.size(); i++)
 		{
 	
@@ -89,8 +93,28 @@ public class KmlWriter {
 		//marshals into file
 		try {
 			kml.marshal(new File(WritePath));
+			System.out.println("KML File in : " + INITIAL.getFileWritePath().getAbsolutePath());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}	
 	}	
 }
+/*
+Icon CellSignal = new Icon().withId("CellSignal");
+CellSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/Cellular_zpsjrq8caum.png");
+
+Icon FullSignal = new Icon().withId("FullSignal");
+FullSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-Full_zpsupznj0tv.png");
+
+Icon ThreeBarsSignal = new Icon().withId("3Signal");
+ThreeBarsSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-3-bars_zpsrb0wxunf.png");
+
+Icon TwoBarsSignal = new Icon().withId("2Signal");
+TwoBarsSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-2-bars_zpssgvhsp70.png");
+
+Icon OneBarSignal = new Icon().withId("1Signal");
+OneBarSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-1-bar_zpso0hexdq7.png");
+
+Icon EmptySignal = new Icon().withId("NoSignal");
+EmptySignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-Empty_zpsbxgdhv7a.png");
+/*/
