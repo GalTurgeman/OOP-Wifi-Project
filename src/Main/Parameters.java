@@ -1,12 +1,32 @@
+package Main;
 
 public class Parameters {
 
-	public static double power;
-	public static double norm;
-	public static double sigDiff;
-	public static double minDiff;
-	public static double noSignal;
-	public static double diffNoSig;
+	public static double power = 2 ;
+	public static double norm = 10000;
+	public static double sigDiff = 0.4;
+	public static double minDiff = 3;
+	public static double noSignal = -120;
+	public static double diffNoSig = 100;
+	public static int numberAlgoA = 3;
+	public static int numberAlgoB = 4;
+			
+
+	public static int getNumberAlgoA() {
+		return numberAlgoA;
+	}
+
+	public static void setNumberAlgoA(int numberAlgoA) {
+		Parameters.numberAlgoA = numberAlgoA;
+	}
+
+	public static int getNumberAlgoB() {
+		return numberAlgoB;
+	}
+
+	public static void setNumberAlgoB(int numberAlgoB) {
+		Parameters.numberAlgoB = numberAlgoB;
+	}
 
 	public static double getPower() {
 		return power;
@@ -56,13 +76,5 @@ public class Parameters {
 		Parameters.diffNoSig = diffNoSig;
 	}
 
-	public Parameters() {
-		this.power = 2;
-		this.norm = 1000;
-		this.sigDiff = 0.4;
-		this.minDiff = 3;
-		this.noSignal = -120;
-		this.diffNoSig = 100;
-	}
 
 }

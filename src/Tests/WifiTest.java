@@ -1,7 +1,10 @@
+package Tests;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import Main.Wifi;
 
 public class WifiTest {
 

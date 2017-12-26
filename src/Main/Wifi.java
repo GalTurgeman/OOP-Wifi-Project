@@ -1,3 +1,4 @@
+package Main;
 import java.awt.geom.Point2D;
 
 public class Wifi {
@@ -6,8 +7,10 @@ public class Wifi {
 	private String Type; // Wifi or GSM
 	private String Channel, RSSI, Time;
 	private String model;
-	private double Weight;
+	private double WeightAlgoA;
+	private double WeightAlgoB;
 	private double wLAT,wLON,wALT;//weight lat,lon,alt; gal.
+	private boolean Algo_A_Test=false;
 
 	/*
 	 * Constructors
@@ -37,9 +40,17 @@ public class Wifi {
 		this.ALT = ALT;
 		this.Type = Type;
 		this.model = model;
-		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
+		this.WeightAlgoA = 1/(Math.pow(this.getRSSIAsNum(), 2));
 	}
-
+	public Wifi(double [] point , String SSID , String MAC , String Time,String RSSI){
+		 this.LAT =  ""+point[0];
+		 this.LON = ""+point[1];
+		 this.ALT = ""+point[2];
+		 this.SSID = SSID;
+		 this.MAC = MAC;
+		 this.Time = Time;
+		 this.RSSI = RSSI;
+	}
 	/**
 	 * @param arr
 	 */
@@ -55,7 +66,7 @@ public class Wifi {
 		this.ALT = arr[8];
 		this.Type = arr[9];
 		this.model = arr[10];
-		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
+		this.WeightAlgoA = 1/(Math.pow(this.getRSSIAsNum(), 2));
 	}
 
 	/**
@@ -100,6 +111,7 @@ public class Wifi {
 		this.model = "";
 		
 	}
+	
 
 	/**
 	 * @return
@@ -131,10 +143,13 @@ public class Wifi {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
-		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Crypt=" + Crypt + ", Time=" + Time  
-				+ ", Channel=" + Channel +  ", RSSI=" + RSSI + ", LAT=" + LAT + ", LON=" + LON +  
-				", ALT=" + ALT + ", Model: "+ model +"]";
+//	public String toString() {
+//		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Crypt=" + Crypt + ", Time=" + Time  
+//				+ ", Channel=" + Channel +  ", RSSI=" + RSSI + ", LAT=" + LAT + ", LON=" + LON +  
+//				", ALT=" + ALT + ", Model: "+ model +"]";
+//	}
+	public String toString(){
+		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Time=" + Time+"]";
 	}
 	/**@author gal
 	 * Print Only the needed details for google earth view.
@@ -377,11 +392,11 @@ public class Wifi {
 	public void Set_wALT(double w){
 		this.wALT = w*getALT_double();
 	}
-	public double getWeight(){
+	public double getWeightAlgoA(){
 		return 1/Math.pow(this.getRSSIAsNum(), 2);
 	}
-	public void SetWeight(){
-		this.Weight = 1/(Math.pow(this.getRSSIAsNum(), 2));
+	public void SetWeightAlgoA(){
+		this.WeightAlgoA = 1/(Math.pow(this.getRSSIAsNum(), 2));
 	}
 	public double get_wALT(){
 		return this.wALT;
@@ -394,6 +409,22 @@ public class Wifi {
 	}
 	public double getRSSIAsNum(){
 		return Double.parseDouble(RSSI);
+	}
+
+	public double getWeightAlgoB() {
+		return WeightAlgoB;
+	}
+
+	public void setWeightAlgoB(double diff) {
+		this.WeightAlgoB=Parameters.norm/(Math.pow(diff, Parameters.sigDiff)*Math.pow(getRSSIAsNum(), Parameters.power) );
+	}
+
+	public boolean getIsCheked() {
+		return Algo_A_Test;
+	}
+
+	public void setIsChecked(boolean algo_A_Test) {
+		Algo_A_Test = algo_A_Test;
 	}
 }
 

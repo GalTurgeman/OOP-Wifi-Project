@@ -1,18 +1,24 @@
+package IO;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+
+import Main.INITIAL;
+import Main.Wifi;
+import Main.sortByRSSI;
 
 
 public class WriteFile {
 	private LinkedList<Wifi> tempOne;
-	public LinkedList<Wifi> FineWifiList;
+	public static LinkedList<Wifi> FineWifiList = new LinkedList<Wifi>(); // end line , whe wifi's that writed in the order ('max 10 in line')
 	private FileWriter fw;
 	private PrintWriter pw;
-	
+	public static int MacCounter =0;
 
 
 	/**
@@ -33,14 +39,15 @@ public class WriteFile {
 	 */
 	public void ReWriteTheData() throws FileNotFoundException{
 		ReadFile rf =new ReadFile();
-		System.out.println("Reading file .... ");
+		System.out.println("Reading file .... \n");
 		rf.ReadingFile();
 		//tempOne = new LinkedList<Wifi>();
 		tempOne = new LinkedList<Wifi>();
-				for(Wifi a: rf.getWifiList()){ 
-					tempOne.add(a);
-				}
-		CollectTheSameWifi(tempOne);
+		for(Wifi a: rf.getWifiList()){ 
+			tempOne.add(a);
+		}
+		CollectTheSameWifi(tempOne); // at the End : finished csv + <FineWifiList>
+		INITIAL.setCSVWifisInOrder(FineWifiList);
 	}
 
 	/**
@@ -56,11 +63,9 @@ public class WriteFile {
 	 * @throws FileNotFoundException 
 	 */
 	public void CollectTheSameWifi(LinkedList<Wifi> list) { 
-		KmlWriter kml;
-		FineWifiList = new LinkedList<>();
 		try{
 			pw.print("TIME,ID,LAT,LON,ALT,Number Of Networks");
-			for (int i = 1; i <= INITIAL.getOneLineWifiCount(); i++) {
+			for (int i = 1; i <= INITIAL.getOneLineWifiCount()+1; i++) {
 				pw.print(",SSID" + i);
 				pw.print(",MAC" + i);
 				pw.print(",Frequency" + i);
@@ -69,34 +74,37 @@ public class WriteFile {
 			//pw.println(x); //header
 			int j;
 			int i = 0;
-			int counter =0;
-			System.out.println("Writing file ...");
-			for ( i = 0 ,j=0; i < list.size()-1; i=j) {
-				LinkedList<Wifi> tmp = new LinkedList<Wifi>();
-				tmp.add(list.get(i));	//first we what to add the list.i
-				//j=i+1;
+			System.out.println("Writing file ....");
+//			for ( i = 0 ,j=0; i < list.size(); i=j) {
+			for ( i = 0 ,j=1; i < list.size(); i = j) {
+				LinkedList<Wifi> tmpListSameTime = new LinkedList<Wifi>();
+				tmpListSameTime.add(list.get(i));	//first we what to add the list.i
 				while(Check2Wifis(list.get(i), list.get(j)) ){
 					//keep write the same wifis
-					tmp.add(list.get(j));
+					tmpListSameTime.add(list.get(j));
 					j++;
 					if(j == list.size())
 						break;
 				}
 				
-				SortTheWifiListRssi(tmp); //tested , working
-				TakeTheNStrongestByRssi(INITIAL.getOneLineWifiCount(),tmp);//tested , working
-				
+				//SortTheWifiListRssi(tmpListSameTime); //tested , working
+				Collections.sort(tmpListSameTime, new sortByRSSI());
+				TakeTheNStrongestByRssi(INITIAL.getOneLineWifiCount(),tmpListSameTime);//tested , working
+
 				pw.println();
-				pw.print(tmp.get(0).getTime() + ",");
-				pw.print(tmp.get(0).getModel() + ",");
-				pw.print(tmp.get(0).getLAT() + ",");
-				pw.print(tmp.get(0).getLON() + ",");
-				pw.print(tmp.get(0).getALT() + ",");
-				pw.print((tmp.size()-1) + ",");
-//				System.out.println(counter++ + " "+tmp.size());
-				for(int k = 0 ; k < tmp.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
-					FineWifiList.add(tmp.get(k).get());
-					pw.print(tmp.get(k).getSSID() + " , "+tmp.get(k).getMAC() + " , "+tmp.get(k).getChannel() + " , "+tmp.get(k).getRSSI()+ " , ");
+				pw.print(tmpListSameTime.get(0).getTime() + ",");
+				pw.print(tmpListSameTime.get(0).getModel() + ",");
+				pw.print(tmpListSameTime.get(0).getLAT() + ",");
+				pw.print(tmpListSameTime.get(0).getLON() + ",");
+				pw.print(tmpListSameTime.get(0).getALT() + ",");
+				pw.print((tmpListSameTime.size()) + ",");
+
+				INITIAL.WifiSamples.add(tmpListSameTime);
+
+				for(int k = 0 ; k < tmpListSameTime.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
+					FineWifiList.add(tmpListSameTime.get(k).get());//fill collection to work with.
+					pw.print(tmpListSameTime.get(k).getSSID() + " , "+tmpListSameTime.get(k).getMAC() + " , "+tmpListSameTime.get(k).getChannel() + " , "+tmpListSameTime.get(k).getRSSI()+ " , ");
+					MacCounter++;
 				}
 			}
 			pw.close();
@@ -104,8 +112,7 @@ public class WriteFile {
 		}catch(IOException ex){
 			System.out.println("Some problem" + ex);
 		}
-//		kml = new KmlWriter(list,"//toWrite/FullKML.kml");
-		System.out.println("done.\nFile in: "+INITIAL.getFileWritePath().getAbsolutePath());	
+		System.out.println("File in: "+INITIAL.getFileWritePath().getAbsolutePath()+"\nDone!");	
 	}
 
 	/**
@@ -114,10 +121,9 @@ public class WriteFile {
 	 * @param b	second wifi
 	 * @return True if there is symmetry , false if there is no symmetry.
 	 */
-	public boolean Check2Wifis(Wifi a, Wifi b){
+	public static boolean Check2Wifis(Wifi a, Wifi b){
 		if(
 				a.getTime().equals(b.getTime())
-				//&& a.getModel().equals(b.getModel())
 				&& a.getLAT().equals(b.getLAT())
 				&& a.getLON().equals(b.getLON())
 				&& a.getALT().equals(b.getALT())
@@ -130,9 +136,9 @@ public class WriteFile {
 	 * @param tmp
 	 */
 	public void SortTheWifiListRssi(LinkedList<Wifi> tmp){
-		for (int i = 1; i < tmp.size(); i++) {
+		for (int i = 1; i < tmp.size()-1; i++) {
 			int j =i;
-			while(j>0 && tmp.get(j-1).getRssiInINT() <tmp.get(j).getRssiInINT()){
+			while(j>0 && tmp.get(j-1).getRssiInINT()  > tmp.get(j).getRssiInINT()){
 				Wifi tmp1 = tmp.get(j-1);
 				tmp.set(j-1, tmp.get(j));
 				tmp.set(j, tmp1);
@@ -140,7 +146,7 @@ public class WriteFile {
 			}
 		}
 	}
-	
+
 
 	/**
 	 * Removing from the collection elements that exceed the given amount per line 

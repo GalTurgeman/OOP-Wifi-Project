@@ -1,8 +1,12 @@
+package Tests;
 import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
 import org.junit.Test;
+
+import IO.WriteFile;
+import Main.Wifi;
 
 public class WriteFileTest {
 

@@ -1,3 +1,4 @@
+package Main;
 import java.util.Comparator;
 
 public class RssiComparator implements Comparator<Wifi>{
