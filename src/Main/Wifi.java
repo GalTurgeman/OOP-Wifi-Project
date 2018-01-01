@@ -1,5 +1,8 @@
 package Main;
 import java.awt.geom.Point2D;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Wifi {
 
@@ -7,6 +10,7 @@ public class Wifi {
 	private String Type; // Wifi or GSM
 	private String Channel, RSSI, Time;
 	private String model;
+	private Date timeDate;
 	private double WeightAlgoA;
 	private double WeightAlgoB;
 	private double wLAT,wLON,wALT;//weight lat,lon,alt; gal.
@@ -425,6 +429,22 @@ public class Wifi {
 
 	public void setIsChecked(boolean algo_A_Test) {
 		Algo_A_Test = algo_A_Test;
+	}
+	
+	public void setTimeAsDate() {
+		SimpleDateFormat c= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.timeDate = c.parse(this.Time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("error at Wifi , set Date by the following Time String.");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public Date getTimeDate() {
+		return this.timeDate;
 	}
 }
 
