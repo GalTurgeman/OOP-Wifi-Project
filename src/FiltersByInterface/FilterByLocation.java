@@ -31,7 +31,8 @@ public class FilterByLocation implements Filter{
 			double endlat,
 			double endlon, 
 			double endalt,
-			LinkedList<Wifi> insertlist , boolean flag)
+			LinkedList<Wifi> insertlist , boolean flag ,
+			LinkedList<Wifi> otherAlreadyFiltered)
 	{
 		this.startalt = startalt;
 		this.startlat = startlat;
@@ -47,6 +48,19 @@ public class FilterByLocation implements Filter{
 		}
 
 		runFilter();
+		if(otherAlreadyFiltered != null) { // filter again by the given collection
+			runSecondStageFilter(otherAlreadyFiltered);
+		}
+	}
+	
+	private void runSecondStageFilter(LinkedList<Wifi> otherAlreadyFiltered) {
+		if(checkIt) {
+			for(Wifi a: otherAlreadyFiltered) 
+				if(passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+		}else {
+			for(Wifi a : otherAlreadyFiltered)
+				if(!passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+		}
 	}
 
 	@Override

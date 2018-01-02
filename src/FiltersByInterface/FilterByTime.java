@@ -16,7 +16,7 @@ public class FilterByTime implements Filter{
 	private Date dateMax;
 	boolean checkIt;
 	
-	public FilterByTime(String timeStart, String timeEnd ,LinkedList<Wifi> inputCollection, boolean flag ) {
+	public FilterByTime(String timeStart, String timeEnd ,LinkedList<Wifi> inputCollection, boolean flag ,LinkedList<Wifi> otherAlreadyFiltered) {
 		this.checkIt = flag;
 		SimpleDateFormat formatD = new SimpleDateFormat(this.timeFormat);
 		 try {
@@ -29,9 +29,21 @@ public class FilterByTime implements Filter{
 		this.resultCollection = new LinkedList<>();
 		for(Wifi a : inputCollection) a.setTimeAsDate();
 		runFilter(inputCollection);
-		
+		if(otherAlreadyFiltered != null) { // filter again by the that collection
+			runSecondStageFilter(otherAlreadyFiltered);
+		}
 	}
 	
+	private void runSecondStageFilter(LinkedList<Wifi> otherAlreadyFiltered) {
+		if(checkIt) {
+			for(Wifi a: otherAlreadyFiltered) 
+				if(passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+		}else {
+			for(Wifi a : otherAlreadyFiltered)
+				if(!passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+		}
+	}
+
 	private void runFilter(LinkedList<Wifi> input) {
 		if(checkIt) {
 			for(Wifi a : input) 

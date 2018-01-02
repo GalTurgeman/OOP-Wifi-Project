@@ -1,10 +1,11 @@
 package Main;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Wifi {
+public class Wifi implements Serializable{
 
 	private String MAC, LAT, LON, SSID, ALT, Crypt;
 	private String Type; // Wifi or GSM

@@ -10,7 +10,7 @@ public class FilterByDeviceInput implements FilterB{
 	boolean checkIt;
 	String input;
 	
-	 public FilterByDeviceInput(String input, LinkedList<Wifi> inputCollection, boolean flag) {
+	 public FilterByDeviceInput(String input, LinkedList<Wifi> inputCollection, boolean flag ,LinkedList<Wifi> otherAlreadyFiltered) {
 		this.input = input;
 		resultCollection = new LinkedList<Wifi>();
 		checkIt = flag; //TODO: use that flag to filter it correctly 
@@ -19,9 +19,21 @@ public class FilterByDeviceInput implements FilterB{
 			cloneList.add(a);
 		}
 		runFilter();
-		
+		if(otherAlreadyFiltered != null) { // filter again by the given collection
+			runSecondStageFilter(otherAlreadyFiltered);
+		}
 		
 	}
+	 
+		private void runSecondStageFilter(LinkedList<Wifi> otherAlreadyFiltered) {
+			if(checkIt) {
+				for(Wifi a: otherAlreadyFiltered) 
+					if(passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+			}else {
+				for(Wifi a : otherAlreadyFiltered)
+					if(!passes(a) && !resultCollection.contains(a))this.resultCollection.add(a);
+			}
+		}
 	
 	 private void runFilter() {
 		 if(checkIt) { // if the checkIt == true , then we want to filter the collection by that input.
