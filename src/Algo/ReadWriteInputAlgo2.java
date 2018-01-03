@@ -58,7 +58,8 @@ public class ReadWriteInputAlgo2 {
 					a.setRXL(currentLineArr[i+9]);
 					Input_wifi.add(a);
 				}
-				AlgoB tmp = new AlgoB(Input_wifi,Parameters.getNumberAlgoB());
+				//TODO : no use anymore!
+//				AlgoB tmp = new AlgoB(Input_wifi,Parameters.getNumberAlgoB());
 				Input_wifi.clear();
 				currentLine = br.readLine();
 			}

@@ -37,6 +37,9 @@ public class Wifi implements Serializable {
 		this.MAC = MAC;
 		this.SSID = SSID;
 		this.Crypt = Crypt;
+		if(Time.contains("/")) {//GAL Added
+			this.Time=Time.replaceAll("/", "-");
+		}
 		this.Time = Time;
 		this.Channel = Channel;
 		this.RSSI = RSSI;
@@ -53,6 +56,9 @@ public class Wifi implements Serializable {
 		 this.ALT = ""+point[2];
 		 this.SSID = SSID;
 		 this.MAC = MAC;
+		 if(Time.contains("/")) {//Gal Added
+			 this.Time=Time.replaceAll("/", "-");
+		}
 		 this.Time = Time;
 		 this.RSSI = RSSI;
 	}
@@ -63,6 +69,10 @@ public class Wifi implements Serializable {
 		this.MAC = arr[0];
 		this.SSID = arr[1];
 		this.Crypt = arr[2];
+		if(arr[3].contains("/")) {
+			arr[3] = arr[3].replaceAll("/", "-");
+			this.Time=arr[3];
+		}
 		this.Time = arr[3];
 		this.Channel = arr[4];
 		this.RSSI = arr[5];
@@ -91,6 +101,9 @@ public class Wifi implements Serializable {
 	 -	 * @param Signal
 	 -	 */
 	public Wifi(String[] toKML, int i){
+		if(toKML[0].contains("/")) {
+			this.Time=Time.replaceAll("/", "-");
+		}
 		this.Time =toKML[0]; 
 		this.model =toKML[1];
 		this.LAT =toKML[2];

@@ -19,7 +19,6 @@ public class WriteFile {
 	public static LinkedList<Wifi> FineWifiList = new LinkedList<Wifi>(); // end line , whe wifi's that writed in the order ('max 10 in line')
 	private static FileWriter fw;
 	private static PrintWriter pw;
-	public static int MacCounter =0;
 
 
 	/**
@@ -102,11 +101,10 @@ public class WriteFile {
 				pw.print((tmpListSameTime.size()) + ",");
 
 				INITIAL.WifiSamples.add(tmpListSameTime);
-
+				
 				for(int k = 0 ; k < tmpListSameTime.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
 					FineWifiList.add(tmpListSameTime.get(k).get());//fill collection to work with.
 					pw.print(tmpListSameTime.get(k).getSSID() + " , "+tmpListSameTime.get(k).getMAC() + " , "+tmpListSameTime.get(k).getChannel() + " , "+tmpListSameTime.get(k).getRSSI()+ " , ");
-					MacCounter++;
 				}
 			}
 			pw.close();

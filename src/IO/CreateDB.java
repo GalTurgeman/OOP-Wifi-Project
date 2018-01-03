@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.DataBindingException;
+
 import com.teamdev.jxmaps.internal.internal.f;
 
 import Algo.sortByPI;
@@ -27,6 +29,7 @@ public class CreateDB {
 	private String pathName;
 	public static LinkedList<Wifi> FullDB = new LinkedList<Wifi>();
 	public static LinkedList<Wifi> TempFullDB = new LinkedList<Wifi>();
+	public static LinkedList<LinkedList<Wifi>> WifiSamplesDB = new LinkedList<LinkedList<Wifi>>();
 	private static LinkedList<String> wifiParameters;
 	private static LinkedList<String> ListMacCounter = new LinkedList<String>();
 	public static int MacCounter;
@@ -128,7 +131,7 @@ public class CreateDB {
 		}
 		MacCounter = ListMacCounter.size();
 		}
-		else {
+		else if(!TempFullDB.isEmpty()) {
 			ListMacCounter.add(TempFullDB.getFirst().getMAC());
 			for (Wifi wifi : TempFullDB) {
 				if(!ListMacCounter.contains(wifi.getMAC())) {
@@ -186,6 +189,7 @@ public class CreateDB {
 				pw.print(tmpListSameTime.get(0).getALT() + ",");
 				pw.print((tmpListSameTime.size()) + ",");
 				
+				
 				for(int k = 0 ; k < tmpListSameTime.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
 					pw.print(tmpListSameTime.get(k).getSSID() + " , "+tmpListSameTime.get(k).getMAC() + " , "+tmpListSameTime.get(k).getChannel() + " , "+tmpListSameTime.get(k).getRSSI()+ " , ");
 				}
@@ -239,11 +243,44 @@ public class CreateDB {
 		ListMacCounter.clear();
 	}
 	public static void Undo() {	
-		
 		ClearDB();
 		FullDB.addAll(TempFullDB);
 		TempFullDB.clear();
 		Records = RecordsToSave;
 		getMacCounter(FullDB);
+	}
+	public static void CreateWifiSamples() {
+		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
+		String timeToCompare=FullDB.getFirst().getTime();
+		for (int i = 1; i < FullDB.size(); i++) {
+			//If has same time add it to list.
+			if(FullDB.get(i).getTime().equals(timeToCompare))
+				SameTime.add(FullDB.get(i));
+			/*/If not add the SameTime list that collect so far.
+			 * Clear SameTime -> Change timeToCompare -> add the wifi to the new SametimeList.
+			 */
+			else {
+				WifiSamplesDB.add(SameTime);
+				System.out.println("CREATE DB WIFISAMPLE SIZE>" + WifiSamplesDB.get(i).size());
+				SameTime.clear();
+				timeToCompare=FullDB.get(i).getTime();
+				SameTime.add(FullDB.get(i));
+			}	
+		}
+	}
+	//Lenovo PB2-690Y
+	public static int getRecords(LinkedList<Wifi> fullDB) {
+		LinkedList<String> temp = new LinkedList<String>();
+		temp.add(fullDB.getFirst().getTime());
+		int counter=1;
+		for (Wifi wifi : fullDB) {
+			
+			if(!temp.contains(wifi.getTime())) {
+				temp.add(wifi.getTime());
+				counter++;
+			}
+		}
+		Records = counter;
+		return Records;
 	}
 }
