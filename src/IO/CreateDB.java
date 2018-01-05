@@ -18,6 +18,7 @@ import javax.xml.bind.DataBindingException;
 
 import com.teamdev.jxmaps.internal.internal.f;
 
+import Algo.AlgoBNews;
 import Algo.sortByPI;
 import Main.INITIAL;
 import Main.SortByTimeComparator;
@@ -97,7 +98,7 @@ public class CreateDB {
 			System.err.println(e);
 		}
 	}
-	
+
 	private void insert_Line_asWifi(String[] lineArr) {
 		Records++;
 		wifiParameters = new LinkedList<String>();
@@ -123,13 +124,13 @@ public class CreateDB {
 
 	public static int getMacCounter(LinkedList<Wifi> fullDB) {
 		if(!FullDB.isEmpty()) {
-		ListMacCounter.add(fullDB.getFirst().getMAC());
-		for (Wifi wifi : fullDB) {
-			if(!ListMacCounter.contains(wifi.getMAC())) {
-				ListMacCounter.add(wifi.getMAC());
+			ListMacCounter.add(fullDB.getFirst().getMAC());
+			for (Wifi wifi : fullDB) {
+				if(!ListMacCounter.contains(wifi.getMAC())) {
+					ListMacCounter.add(wifi.getMAC());
+				}
 			}
-		}
-		MacCounter = ListMacCounter.size();
+			MacCounter = ListMacCounter.size();
 		}
 		else if(!TempFullDB.isEmpty()) {
 			ListMacCounter.add(TempFullDB.getFirst().getMAC());
@@ -139,14 +140,14 @@ public class CreateDB {
 				}
 			}
 			MacCounter = ListMacCounter.size();
-			}
+		}
 		return MacCounter;
 	}
 
 	public static LinkedList<Wifi> getFullDB() {
 		return FullDB;
 	}
-	
+
 	public static void setFullDB(LinkedList<Wifi> fullDB) {
 		FullDB = fullDB;
 	}
@@ -188,8 +189,8 @@ public class CreateDB {
 				pw.print(tmpListSameTime.get(0).getLON() + ",");
 				pw.print(tmpListSameTime.get(0).getALT() + ",");
 				pw.print((tmpListSameTime.size()) + ",");
-				
-				
+
+
 				for(int k = 0 ; k < tmpListSameTime.size(); k++){ // print the data of every wifi //TODO check why tmp.size()-1;
 					pw.print(tmpListSameTime.get(k).getSSID() + " , "+tmpListSameTime.get(k).getMAC() + " , "+tmpListSameTime.get(k).getChannel() + " , "+tmpListSameTime.get(k).getRSSI()+ " , ");
 				}
@@ -199,7 +200,7 @@ public class CreateDB {
 		}catch(IOException ex){
 			System.out.println("Some problem" + ex);
 		}
-//		System.out.println("File in: "+INITIAL.getFileWritePath().getAbsolutePath()+"\nDone!");	
+		//		System.out.println("File in: "+INITIAL.getFileWritePath().getAbsolutePath()+"\nDone!");	
 	}
 
 	/**
@@ -252,16 +253,18 @@ public class CreateDB {
 	public static void CreateWifiSamples() {
 		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
 		String timeToCompare=FullDB.getFirst().getTime();
-		for (int i = 1; i < FullDB.size(); i++) {
+		for (int i = 0; i < FullDB.size(); i++) {
 			//If has same time add it to list.
-			if(FullDB.get(i).getTime().equals(timeToCompare))
+			if(FullDB.get(i).getTime().equals(timeToCompare)) {
 				SameTime.add(FullDB.get(i));
-			/*/If not add the SameTime list that collect so far.
-			 * Clear SameTime -> Change timeToCompare -> add the wifi to the new SametimeList.
-			 */
+
+				/*/If not add the SameTime list that collect so far.
+				 * Clear SameTime -> Change timeToCompare -> add the wifi to the new SametimeList.
+				 */
+			}
 			else {
+				SameTime.add(FullDB.get(i));
 				WifiSamplesDB.add(SameTime);
-				System.out.println("CREATE DB WIFISAMPLE SIZE>" + WifiSamplesDB.get(i).size());
 				SameTime.clear();
 				timeToCompare=FullDB.get(i).getTime();
 				SameTime.add(FullDB.get(i));
@@ -274,7 +277,7 @@ public class CreateDB {
 		temp.add(fullDB.getFirst().getTime());
 		int counter=1;
 		for (Wifi wifi : fullDB) {
-			
+
 			if(!temp.contains(wifi.getTime())) {
 				temp.add(wifi.getTime());
 				counter++;
@@ -282,5 +285,27 @@ public class CreateDB {
 		}
 		Records = counter;
 		return Records;
+	}
+	public static void main (String [] args) {
+		File f = new File("/Users/gal/git/Wifi_Project/toRead");
+
+		CreateDB c = new CreateDB(f,0);
+		System.out.println("GAL");
+		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
+		LinkedList<LinkedList<Wifi>> HUGE = new LinkedList<LinkedList<Wifi>>();
+		String timeToCompare=FullDB.getFirst().getTime();
+
+		//If has same time add it to list.
+			for (int i = 0; i < FullDB.size(); i++) {
+				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
+					System.out.println(FullDB.get(i));
+				}
+				
+			}
+
+		//		
+
+		//		AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a","-20","00:1a:dd:e3:06:e4","-53","00:1a:dd:f5:e9:25","-58", 3);
+
 	}
 }
