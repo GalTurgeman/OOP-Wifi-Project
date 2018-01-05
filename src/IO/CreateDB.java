@@ -294,13 +294,18 @@ public class CreateDB {
 		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
 		LinkedList<LinkedList<Wifi>> HUGE = new LinkedList<LinkedList<Wifi>>();
 		String timeToCompare=FullDB.getFirst().getTime();
-
+		int place;
 		//If has same time add it to list.
+		
 			for (int i = 0; i < FullDB.size(); i++) {
 				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
-					System.out.println(FullDB.get(i));
+					SameTime.add(FullDB.get(i));
 				}
-				
+				else if(FullDB.get(i).getTime().equals(FullDB.get(i-1).getTime())) {
+					SameTime.add(FullDB.get(i));
+					HUGE.add(SameTime);
+					SameTime.clear();
+				}
 			}
 
 		//		
