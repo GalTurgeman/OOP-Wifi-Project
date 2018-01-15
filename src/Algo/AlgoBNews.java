@@ -65,17 +65,18 @@ public class AlgoBNews {
 	public void Run(LinkedList<Wifi> LineInput) {
 		CreateDB.CreateWifiSamples();
 		for (int i = 0; i < CreateDB.WifiSamplesDB.size(); i++) {
-			System.out.println(LineInput.size());
-			System.out.println(CreateDB.WifiSamplesDB.get(i).size());
+//			System.out.println(LineInput.size());
+//			System.out.println(CreateDB.WifiSamplesDB.get(i).size());
 				LineAlgo2 l = new LineAlgo2(LineInput, CreateDB.WifiSamplesDB.get(i));
+//				System.out.println(i+":"+l.p);
 				All_lines.add(l);
-				System.out.println(l.getP());
+//				System.out.println(l.getP());
 		}
 		Collections.sort(All_lines,new sortByPI());
 		
 			for (int i = 0; i < n && i<All_lines.size(); i++) {
 				this.sumOfPI+=All_lines.get(i).getP();
-				System.out.println(All_lines.get(i).getP());
+//				System.out.println(i+"P"+All_lines.get(i).getP());
 			}
 			
 			double [] sum  = new double[3];
@@ -86,11 +87,14 @@ public class AlgoBNews {
 				sum[1]+=All_lines.get(i).getP()*All_lines.get(i).getLAT();
 				sum[2]+=All_lines.get(i).getP()*All_lines.get(i).getLAT();
 			}
-			
+//			System.out.println("SumOfPI"+sumOfPI);
+//			System.out.println("sum[0]"+sum[0]);
+//			System.out.println("sum[1]"+sum[1]);
+//			System.out.println("sum[2]"+sum[2]);
 		w_sum[0] =sum[0] / sumOfPI;
 		w_sum[1] =sum[1] / sumOfPI;
 		w_sum[2] =sum[2] / sumOfPI;
-		
+//		System.out.println(Arrays.toString(w_sum));
 		this.Point = w_sum;
 	}
 }

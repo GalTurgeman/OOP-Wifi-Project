@@ -13,10 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.xml.bind.DataBindingException;
-
-import com.teamdev.jxmaps.internal.internal.f;
 
 import Algo.AlgoBNews;
 import Algo.sortByPI;
@@ -152,6 +149,7 @@ public class CreateDB {
 		FullDB = fullDB;
 	}
 	public static void WriteToCSVFullDB(LinkedList<Wifi> list) { 
+		Collections.sort(list,new SortByTimeComparator());
 		try{
 			fw = new FileWriter(INITIAL.getSaveToFullDBPath());
 			pw = new PrintWriter(fw);
@@ -253,26 +251,24 @@ public class CreateDB {
 	public static void CreateWifiSamples() {
 		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
 		String timeToCompare=FullDB.getFirst().getTime();
-		for (int i = 0; i < FullDB.size(); i++) {
-			//If has same time add it to list.
-			if(FullDB.get(i).getTime().equals(timeToCompare)) {
-				SameTime.add(FullDB.get(i));
-
-				/*/If not add the SameTime list that collect so far.
-				 * Clear SameTime -> Change timeToCompare -> add the wifi to the new SametimeList.
-				 */
+		int place;
+		//If has same time add it to list.
+		
+			for (int i = 0; i < FullDB.size()-1; i++) {
+				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
+					SameTime.add(FullDB.get(i));
+				}
+				else if(FullDB.get(i).getTime().equals(FullDB.get(i-1).getTime())) {
+					SameTime.add(FullDB.get(i));
+					WifiSamplesDB.add(SameTime);
+					SameTime = new LinkedList<>();
+				}
 			}
-			else {
-				SameTime.add(FullDB.get(i));
-				WifiSamplesDB.add(SameTime);
-				SameTime.clear();
-				timeToCompare=FullDB.get(i).getTime();
-				SameTime.add(FullDB.get(i));
-			}	
-		}
 	}
 	//Lenovo PB2-690Y
 	public static int getRecords(LinkedList<Wifi> fullDB) {
+		if(fullDB.isEmpty())
+			return 0;
 		LinkedList<String> temp = new LinkedList<String>();
 		temp.add(fullDB.getFirst().getTime());
 		int counter=1;
@@ -290,23 +286,29 @@ public class CreateDB {
 		File f = new File("/Users/gal/git/Wifi_Project/toRead");
 
 		CreateDB c = new CreateDB(f,0);
-		System.out.println("GAL");
-		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
-		LinkedList<LinkedList<Wifi>> HUGE = new LinkedList<LinkedList<Wifi>>();
-		String timeToCompare=FullDB.getFirst().getTime();
-		int place;
-		//If has same time add it to list.
+		c.CreateWifiSamples();
+		AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a"  , "-20", "b4:ee:b4:36:d2:b0", "-51", "88:dc:96:17:c0:9e", "-51", 3);
 		
-			for (int i = 0; i < FullDB.size(); i++) {
-				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
-					SameTime.add(FullDB.get(i));
-				}
-				else if(FullDB.get(i).getTime().equals(FullDB.get(i-1).getTime())) {
-					SameTime.add(FullDB.get(i));
-					HUGE.add(SameTime);
-					SameTime.clear();
-				}
-			}
+//		System.out.println("GAL");
+//		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
+//		LinkedList<LinkedList<Wifi>> HUGE = new LinkedList<LinkedList<Wifi>>();
+//		String timeToCompare=FullDB.getFirst().getTime();
+//		int place;
+//		//If has same time add it to list.
+//		
+//			for (int i = 0; i < FullDB.size()-1; i++) {
+//				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
+//					SameTime.add(FullDB.get(i));
+//				}
+//				else if(FullDB.get(i).getTime().equals(FullDB.get(i-1).getTime())) {
+//					SameTime.add(FullDB.get(i));
+//					HUGE.add(SameTime);
+//					SameTime = new LinkedList<>();
+//				}
+//			}
+//			for (int i = 0; i < HUGE.size(); i++) {
+//					System.out.println(HUGE.get(i).size()+" ,"+HUGE.get(i));
+//			}
 
 		//		
 

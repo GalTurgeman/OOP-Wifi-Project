@@ -44,9 +44,9 @@ public class LineAlgo2 {
 		for (int i = 0; i < input.size(); i++) {
 			for (int j = 0; j < oneLineDB.size(); j++) {
 				
-				this.LAT = oneLineDB.getFirst().getLAT_double();
-				this.LON = oneLineDB.getFirst().getLON_double();
-				this.setALT(oneLineDB.getFirst().getALT_double());
+				this.setLAT (oneLineDB.getFirst().getLAT_double());
+				this.setLON (oneLineDB.getFirst().getLON_double());
+				this.setALT (oneLineDB.getFirst().getALT_double());
 				
 				if(input.get(i).getMAC().equals(oneLineDB.get(j).getMAC())) {//if there is a match.
 					tmp = funcDiff(input.get(i),oneLineDB.get(j));

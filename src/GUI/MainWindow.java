@@ -46,7 +46,6 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.teamdev.jxmaps.swing.MapView;
 
 import Algo.AlgoA;
 import Algo.AlgoB;
@@ -55,6 +54,7 @@ import Algo.ReadWriteInputAlgo2;
 import FilterInterface.allFilters;
 import IO.CreateDB;
 import IO.KmlWriter;
+import IO.SQL;
 import IO.WriteFile;
 import Main.INITIAL;
 import de.micromata.opengis.kml.v_2_2_0.Folder;
@@ -83,7 +83,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JFormattedTextField;
 
 public class MainWindow extends JFrame {
-	public File file = new File("/Users");
+	public File file = new File("/Users/gal");
 	public Desktop desktop = Desktop.getDesktop();
 	public static File selFolder;
 	public static File selCombCSV;
@@ -103,6 +103,11 @@ public class MainWindow extends JFrame {
 	private JTextField txtALGOB_Mac2;
 	private JTextField txtALGOB_Mac3;
 	private JTextField txtALGBSig3;
+	
+	public static JPanel IOWindow = new JPanel();
+	public static JPanel FilterWindow = new JPanel();
+	public static JPanel AlgoWindow = new JPanel();
+	
 	private static String ReadPath = "toRead";
 	private static String WritePath = "toWrite//FullDB.csv";
 	private static ArrayList<File> FoldersPaths = new ArrayList<>();
@@ -113,6 +118,7 @@ public class MainWindow extends JFrame {
 	private JTextField txtmaxLAT;
 	private JTextField txtmaxLON;
 	private JTextField txtmaxALT;
+	private JLabel txtFilterInfo;
 
 	public static String getReadPath() {
 		return ReadPath;
@@ -155,18 +161,293 @@ public class MainWindow extends JFrame {
 		setResizable(false);
 		getContentPane().setBackground(Color.WHITE);	
 
-
-
-
 		getContentPane().setLayout(null);
 
 		Canvas Line = new Canvas();
 		Line.setBounds(97, 0, 1, 450);
 		Line.setBackground(Color.GRAY);
 		getContentPane().add(Line);
+		
+		IOWindow.setBounds(97, 0, 573, 444);
+		getContentPane().add(IOWindow);
+		IOWindow.setBackground(Color.WHITE);
+		IOWindow.setLayout(null);
+		IOWindow.setVisible(false);
+		Canvas IOWindowLine = new Canvas();
+		IOWindowLine.setBounds(10, 180, 553, 1);
+		IOWindowLine.setBackground(Color.GRAY);
+		IOWindow.add(IOWindowLine);
 
-		Icon foldericon=new ImageIcon("Users/gal/git/Wifi_Project/Icons/folderIcon2.png");
-		ImageIcon CSVicon=new ImageIcon("Icons/CSV.png");
+		JLabel NumberOfRecords = new JLabel("0");
+		NumberOfRecords.setBackground(Color.WHITE);
+		NumberOfRecords.setBounds(217, 276, 50, 16);
+		NumberOfRecords.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		 IOWindow.add(NumberOfRecords);
+
+		JLabel NumberOfMAC = new JLabel("" + CreateDB.MacCounter);
+		NumberOfMAC.setBackground(Color.WHITE);
+		NumberOfMAC.setBounds(217, 223, 50, 16);
+		NumberOfMAC.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		 IOWindow.add(NumberOfMAC);
+
+		JButton OpenFolderbtn = new JButton(new ImageIcon(MainWindow.class.getResource("/folder_open.png")));
+		OpenFolderbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		OpenFolderbtn.setText("Open Folder");
+		OpenFolderbtn.setBounds(52, 6, 150, 50);
+		 IOWindow.add(OpenFolderbtn);
+		OpenFolderbtn.setBackground(Color.WHITE);
+		OpenFolderbtn.setForeground(Color.BLACK);
+
+		OpenFolderbtn.setName("open folder");
+		JButton OpenCSVbtn = new JButton("Open CSV",new ImageIcon(MainWindow.class.getResource("/excel.png")));
+		OpenCSVbtn.setBackground(Color.WHITE);
+		OpenCSVbtn.setForeground(Color.BLACK);
+		OpenCSVbtn.setBounds(214, 6, 150, 50);
+		OpenCSVbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		 IOWindow.add(OpenCSVbtn);
+
+		txtFilterInfo = new JLabel("");
+		txtFilterInfo.setAutoscrolls(true);
+		txtFilterInfo.setBackground(Color.WHITE);
+		txtFilterInfo.setBounds(285, 250, 0, 0);
+		 IOWindow.add(txtFilterInfo);
+		
+		JLabel RouterIcon = new JLabel("");
+		RouterIcon.setBackground(Color.WHITE);
+		RouterIcon.setBounds(10, 200, 61, 50);
+		RouterIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		RouterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/router.png")));
+		 IOWindow.add(RouterIcon);
+
+		JLabel numMAClabel = new JLabel("Number of MACs:");
+		numMAClabel.setBackground(Color.WHITE);
+		numMAClabel.setBounds(72, 222, 125, 16);
+		numMAClabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		 IOWindow.add(numMAClabel);
+
+		JLabel numRecords = new JLabel("Number of records:");
+		numRecords.setBackground(Color.WHITE);
+		numRecords.setBounds(72, 275, 133, 16);
+		numRecords.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		 IOWindow.add(numRecords);
+
+		JLabel RecordsIcon = new JLabel("");
+		RecordsIcon.setBackground(Color.WHITE);
+		RecordsIcon.setBounds(10, 260, 50, 50);
+		RecordsIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		RecordsIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/records.png")));
+		 IOWindow.add(RecordsIcon);
+			
+		JLabel lblFilterInfo = new JLabel("Filter Info");
+		lblFilterInfo.setBackground(Color.WHITE);
+		lblFilterInfo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblFilterInfo.setBounds(385, 222, 99, 16);
+		 IOWindow.add(lblFilterInfo);
+		
+		JLabel delDBIcon = new JLabel("");
+		delDBIcon.setBackground(Color.WHITE);
+		delDBIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CreateDB.ClearDB();
+				CreateDB.MacCounter = 0;
+				CreateDB.Records =0;
+				txtFilterInfo.setText("");
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+				JOptionPane.showMessageDialog( IOWindow,
+						"DB was successfully deleted !",
+						"Delete DB",
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+				repaint();
+
+			}
+		});
+		delDBIcon.setBounds(24, 374, 64, 64);
+		delDBIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		delDBIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/trash_can.png")));
+		 IOWindow.add(delDBIcon);
+
+		JLabel DelDBtxt = new JLabel("Delete DB");
+		DelDBtxt.setBackground(Color.WHITE);
+		DelDBtxt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CreateDB.ClearDB();
+				CreateDB.MacCounter = 0;
+				CreateDB.Records =0;
+				txtFilterInfo.setText("");
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+				JOptionPane.showMessageDialog( IOWindow,
+						"DB was successfully deleted !",
+						"Delete DB",
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+				repaint();
+			}
+		});
+
+		DelDBtxt.setBounds(92, 395, 89, 24);
+		DelDBtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		 IOWindow.add(DelDBtxt);
+
+		SaveKMLtxt = new JLabel("Save as KML");
+		SaveKMLtxt.setBackground(Color.WHITE);
+		SaveKMLtxt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(CreateDB.getFullDB().isEmpty()) {
+					JOptionPane.showMessageDialog( IOWindow,
+							"DB is empty!",
+							"DB is empty",
+							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
+				}
+				else {
+					KmlWriter k = new KmlWriter(CreateDB.getFullDB());
+					JOptionPane.showMessageDialog( IOWindow,
+							"KML was export sucessfuly!\n File in: "+INITIAL.getWritePathForKML(),
+							"KML Export",
+							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+				}
+			}
+		});
+		SaveKMLtxt.setBounds(255, 402, 99, 16);
+		SaveKMLtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		 IOWindow.add(SaveKMLtxt);
+		KMLIcon = new JLabel("");
+		KMLIcon.setBackground(Color.WHITE);
+		KMLIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog( IOWindow,
+						"KML was export sucessfuly!",
+						"KML Export",
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+			}
+		});
+		KMLIcon.setBounds(190, 374, 64, 64);
+		KMLIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/location.png")));
+		KMLIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		 IOWindow.add(KMLIcon);
+
+		JLabel lblSaveToCsv = new JLabel("Save to CSV");
+		lblSaveToCsv.setBackground(Color.WHITE);
+		lblSaveToCsv.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(CreateDB.getFullDB().isEmpty()) {
+					JOptionPane.showMessageDialog( IOWindow,
+							"DB is empty!",
+							"DB is empty",
+							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
+				}
+				else {
+
+					CreateDB.WriteToCSVFullDB(CreateDB.getFullDB());
+					JOptionPane.showMessageDialog( IOWindow,
+							"CSV was export sucessfuly!\n File in: "+INITIAL.getSaveToFullDBPath(),
+							"CSV Export",
+							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+					System.out.println(INITIAL.getSaveToFullDBPath());
+				}
+			}
+		});
+		lblSaveToCsv.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblSaveToCsv.setBounds(438, 395, 99, 22);
+		 IOWindow.add(lblSaveToCsv);
+
+		JLabel label_3 = new JLabel("");
+		label_3.setBackground(Color.WHITE);
+		label_3.setIcon(new ImageIcon(MainWindow.class.getResource("/excel.png")));
+		label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		label_3.setBounds(382, 374, 64, 64);
+		 IOWindow.add(label_3);
+
+		JLabel FilterIcon = new JLabel("");
+		FilterIcon.setBackground(Color.WHITE);
+		FilterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/filter.png")));
+		FilterIcon.setBounds(314, 200, 50, 50);
+		 IOWindow.add(FilterIcon);
+
+		
+
+		JLabel btnUndo = new JLabel("");
+		btnUndo.setBackground(Color.WHITE);
+		btnUndo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				CreateDB.Undo();
+				System.out.println("FULL DB : " + CreateDB.FullDB.size());
+				System.out.println("TEMP FULL DB : " + CreateDB.TempFullDB.size());
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+				repaint();
+			}
+		});
+		btnUndo.setIcon(new ImageIcon(MainWindow.class.getResource("/backup.png")));
+		btnUndo.setBounds(531, 211, 32, 32);
+		 IOWindow.add(btnUndo);
+
+		Canvas canvas_3 = new Canvas();
+		canvas_3.setBackground(Color.GRAY);
+		canvas_3.setBounds(273, 180, 1, 166);
+		 IOWindow.add(canvas_3);
+		
+//		JLabel lblReadmore = new JLabel("Read more...");
+//		lblReadmore.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				//Here
+//				JOptionPane.showMessageDialog(IOWindow,
+//						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
+//						"Filter Info",
+//						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+//			}
+//		});
+//		lblReadmore.setBounds(485, 338, 78, 16);
+//		IOWindow.add(lblReadmore);
+
+
+		OpenCSVbtn.addActionListener(new ActionListener() {
+			@Override
+			//Csv Button
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jfc;
+				jfc = new JFileChooser();     
+				File f = new File(System.getProperty("user.dir"));
+				jfc.setCurrentDirectory(f);
+				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				jfc.setFileFilter(new FileNameExtensionFilter("CSV Files only", "csv","CSV"));
+				jfc.showOpenDialog(OpenCSVbtn);
+				selCombCSV= jfc.getSelectedFile();
+				CreateDB cDBC = new CreateDB(selCombCSV, 1);
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+				repaint();
+			}
+		});
+		OpenFolderbtn.addActionListener(new ActionListener() {
+
+			@Override
+			//Folder Button!
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jfc;
+				File f = new File(System.getProperty("user.dir"));
+				jfc = new JFileChooser(f.getParent());     
+				jfc.setCurrentDirectory(f);
+				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				jfc.showOpenDialog(OpenFolderbtn);
+				selFolder = jfc.getSelectedFile();
+				System.out.println(selFolder.getAbsolutePath());
+				FoldersPaths.add(selFolder);
+				INITIAL.setReadPath(selFolder.getAbsolutePath());
+				CreateDB cDBF = new CreateDB(selFolder, 0);
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+				repaint();
+			}
+		});
 		//Algo Window
 		JPanel AlgoWindow = new JPanel();
 		AlgoWindow.setBounds(100, 0, 573, 444);
@@ -300,7 +581,7 @@ public class MainWindow extends JFrame {
 				String n =JOptionPane.showInputDialog("Enter interger to limit Algo A:", 3);
 				int number= Integer.parseInt(n);
 				AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a","-20","00:1a:dd:e3:06:e4","-53","00:1a:dd:f5:e9:25","-58", 3);
-//				AlgoBNews b = new AlgoBNews(txtALGOB_Mac1.getText(),txtALGBSig1.getText(),txtALGOB_Mac2.getText(),txtALGBSig2.getText(),txtALGOB_Mac3.getText(),txtALGBSig3.getText(), number);
+				//				AlgoBNews b = new AlgoBNews(txtALGOB_Mac1.getText(),txtALGBSig1.getText(),txtALGOB_Mac2.getText(),txtALGBSig2.getText(),txtALGOB_Mac3.getText(),txtALGBSig3.getText(), number);
 				System.out.println(b.getPoint());
 				lblUserLOC.setText(b.getPoint());
 
@@ -367,271 +648,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		JPanel IOWindow = new JPanel();
-		IOWindow.setBounds(97, 0, 573, 444);
-		getContentPane().add(IOWindow);
-		IOWindow.setBackground(Color.WHITE);
-		IOWindow.setLayout(null);
-		IOWindow.setVisible(false);
-		Canvas IOWindowLine = new Canvas();
-		IOWindowLine.setBounds(10, 180, 553, 1);
-		IOWindowLine.setBackground(Color.GRAY);
-		IOWindow.add(IOWindowLine);
-
-		JLabel NumberOfRecords = new JLabel("0");
-		NumberOfRecords.setBackground(Color.WHITE);
-		NumberOfRecords.setBounds(217, 276, 50, 16);
-		NumberOfRecords.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		IOWindow.add(NumberOfRecords);
-
-		JLabel NumberOfMAC = new JLabel("" + CreateDB.MacCounter);
-		NumberOfMAC.setBackground(Color.WHITE);
-		NumberOfMAC.setBounds(217, 223, 50, 16);
-		NumberOfMAC.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		IOWindow.add(NumberOfMAC);
-
-		JButton OpenFolderbtn = new JButton(new ImageIcon(MainWindow.class.getResource("/folder_open.png")));
-		OpenFolderbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		OpenFolderbtn.setText("Open Folder");
-		OpenFolderbtn.setBounds(118, 7, 150, 50);
-		IOWindow.add(OpenFolderbtn);
-		OpenFolderbtn.setBackground(Color.WHITE);
-		OpenFolderbtn.setForeground(Color.BLACK);
-
-		OpenFolderbtn.setName("open folder");
-		JButton OpenCSVbtn = new JButton("Open CSV",new ImageIcon(MainWindow.class.getResource("/excel.png")));
-		OpenCSVbtn.setBackground(Color.WHITE);
-		OpenCSVbtn.setForeground(Color.BLACK);
-		OpenCSVbtn.setBounds(280, 7, 150, 50);
-		OpenCSVbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		IOWindow.add(OpenCSVbtn);
-
-
-		JLabel RouterIcon = new JLabel("");
-		RouterIcon.setBackground(Color.WHITE);
-		RouterIcon.setBounds(10, 200, 61, 50);
-		RouterIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		RouterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/router.png")));
-		IOWindow.add(RouterIcon);
-
-		JLabel numMAClabel = new JLabel("Number of MACs:");
-		numMAClabel.setBackground(Color.WHITE);
-		numMAClabel.setBounds(72, 222, 125, 16);
-		numMAClabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		IOWindow.add(numMAClabel);
-
-		JLabel numRecords = new JLabel("Number of records:");
-		numRecords.setBackground(Color.WHITE);
-		numRecords.setBounds(72, 275, 133, 16);
-		numRecords.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		IOWindow.add(numRecords);
-
-		JLabel RecordsIcon = new JLabel("");
-		RecordsIcon.setBackground(Color.WHITE);
-		RecordsIcon.setBounds(10, 260, 50, 50);
-		RecordsIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		RecordsIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/records.png")));
-		IOWindow.add(RecordsIcon);
-
-		JLabel delDBIcon = new JLabel("");
-		delDBIcon.setBackground(Color.WHITE);
-		delDBIcon.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				CreateDB.ClearDB();
-				CreateDB.MacCounter = 0;
-				CreateDB.Records =0;
-				NumberOfMAC.setText(""+CreateDB.MacCounter);
-				NumberOfRecords.setText(""+CreateDB.Records);
-				JOptionPane.showMessageDialog(IOWindow,
-						"DB was delete successfully!",
-						"Delte DB",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
-				repaint();
-
-			}
-		});
-		delDBIcon.setBounds(24, 374, 64, 64);
-		delDBIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		delDBIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/trash_can.png")));
-		IOWindow.add(delDBIcon);
-
-		JLabel DelDBtxt = new JLabel("Delete DB");
-		DelDBtxt.setBackground(Color.WHITE);
-		DelDBtxt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				CreateDB.ClearDB();
-				CreateDB.MacCounter = 0;
-				CreateDB.Records =0;
-				NumberOfMAC.setText(""+CreateDB.MacCounter);
-				NumberOfRecords.setText(""+CreateDB.getFullDB().size());
-				JOptionPane.showMessageDialog(IOWindow,
-						"DB was delete successfully!",
-						"Delte DB",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
-				repaint();
-
-			}
-		});
-
-		DelDBtxt.setBounds(92, 395, 89, 24);
-		DelDBtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		IOWindow.add(DelDBtxt);
-
-		SaveKMLtxt = new JLabel("Save as KML");
-		SaveKMLtxt.setBackground(Color.WHITE);
-		SaveKMLtxt.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(CreateDB.getFullDB().isEmpty()) {
-					JOptionPane.showMessageDialog(IOWindow,
-							"DB is empty!",
-							"DB is empty",
-							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
-				}
-				else {
-					KmlWriter k = new KmlWriter(CreateDB.getFullDB());
-					JOptionPane.showMessageDialog(IOWindow,
-							"KML was export sucessfuly!\n File in: "+INITIAL.getWritePathForKML(),
-							"KML Export",
-							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
-				}
-			}
-		});
-		SaveKMLtxt.setBounds(255, 402, 99, 16);
-		SaveKMLtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		IOWindow.add(SaveKMLtxt);
-		KMLIcon = new JLabel("");
-		KMLIcon.setBackground(Color.WHITE);
-		KMLIcon.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(IOWindow,
-						"KML was export sucessfuly!",
-						"KML Export",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
-			}
-		});
-		KMLIcon.setBounds(190, 374, 64, 64);
-		KMLIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/location.png")));
-		KMLIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		IOWindow.add(KMLIcon);
-
-		JLabel lblSaveToCsv = new JLabel("Save to CSV");
-		lblSaveToCsv.setBackground(Color.WHITE);
-		lblSaveToCsv.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(CreateDB.getFullDB().isEmpty()) {
-					JOptionPane.showMessageDialog(IOWindow,
-							"DB is empty!",
-							"DB is empty",
-							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
-				}
-				else {
-
-					CreateDB.WriteToCSVFullDB(CreateDB.getFullDB());
-					JOptionPane.showMessageDialog(IOWindow,
-							"CSV was export sucessfuly!\n File in: "+INITIAL.getSaveToFullDBPath(),
-							"CSV Export",
-							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
-					System.out.println(INITIAL.getSaveToFullDBPath());
-				}
-			}
-		});
-		lblSaveToCsv.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblSaveToCsv.setBounds(438, 395, 99, 22);
-		IOWindow.add(lblSaveToCsv);
-
-		JLabel label_3 = new JLabel("");
-		label_3.setBackground(Color.WHITE);
-		label_3.setIcon(new ImageIcon(MainWindow.class.getResource("/excel.png")));
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		label_3.setBounds(382, 374, 64, 64);
-		IOWindow.add(label_3);
-
-		JLabel lblFilterInfo = new JLabel("Filter Info");
-		lblFilterInfo.setBackground(Color.WHITE);
-		lblFilterInfo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblFilterInfo.setBounds(385, 222, 99, 16);
-		IOWindow.add(lblFilterInfo);
-
-		JLabel FilterIcon = new JLabel("");
-		FilterIcon.setBackground(Color.WHITE);
-		FilterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/filter.png")));
-		FilterIcon.setBounds(314, 200, 50, 50);
-		IOWindow.add(FilterIcon);
-
-		JLabel txtFilterInfo = new JLabel("");
-		txtFilterInfo.setBackground(Color.WHITE);
-		txtFilterInfo.setBounds(285, 250, 278, 86);
-		IOWindow.add(txtFilterInfo);
-
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setBackground(Color.WHITE);
-		lblNewLabel_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				CreateDB.Undo();
-				System.out.println("FULL DB : " + CreateDB.FullDB.size());
-				System.out.println("TEMP FULL DB : " + CreateDB.TempFullDB.size());
-				NumberOfMAC.setText(""+CreateDB.MacCounter);
-				NumberOfRecords.setText(""+CreateDB.Records);
-				repaint();
-			}
-		});
-		lblNewLabel_2.setIcon(new ImageIcon(MainWindow.class.getResource("/backup.png")));
-		lblNewLabel_2.setBounds(531, 211, 32, 32);
-		IOWindow.add(lblNewLabel_2);
-
-		Canvas canvas_3 = new Canvas();
-		canvas_3.setBackground(Color.GRAY);
-		canvas_3.setBounds(273, 180, 1, 166);
-		IOWindow.add(canvas_3);
-
-
-		OpenCSVbtn.addActionListener(new ActionListener() {
-			@Override
-			//Csv Button
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jfc;
-				jfc = new JFileChooser();     
-				File f = new File(System.getProperty("user.dir"));
-				jfc.setCurrentDirectory(f);
-				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				jfc.setFileFilter(new FileNameExtensionFilter("CSV Files only", "csv","CSV"));
-				jfc.showOpenDialog(OpenCSVbtn);
-				selCombCSV= jfc.getSelectedFile();
-				CreateDB cDBC = new CreateDB(selCombCSV, 1);
-				NumberOfMAC.setText(""+CreateDB.MacCounter);
-				NumberOfRecords.setText(""+CreateDB.Records);
-				repaint();
-			}
-		});
-		OpenFolderbtn.addActionListener(new ActionListener() {
-
-			@Override
-			//Folder Button!
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jfc;
-				File f = new File(System.getProperty("user.dir"));
-				jfc = new JFileChooser(f.getParent());     
-				jfc.setCurrentDirectory(f);
-				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				jfc.showOpenDialog(OpenFolderbtn);
-				selFolder = jfc.getSelectedFile();
-				System.out.println(selFolder.getAbsolutePath());
-				FoldersPaths.add(selFolder);
-				INITIAL.setReadPath(selFolder.getAbsolutePath());
-				CreateDB cDBF = new CreateDB(selFolder, 0);
-				NumberOfMAC.setText(""+CreateDB.MacCounter);
-				NumberOfRecords.setText(""+CreateDB.Records);
-				repaint();
-			}
-		});
-
+		
 		//FilterWindow
 		JPanel FilterWindow = new JPanel();
 		FilterWindow.setBounds(100, 0, 573, 444);
@@ -851,7 +868,52 @@ public class MainWindow extends JFrame {
 		checkBox_1.setBackground(Color.WHITE);
 		checkBox_1.setBounds(10, 289, 60, 23);
 		FilterWindow.add(checkBox_1);
-
+		
+		JLabel lblReadmore = new JLabel("Read more...");
+		lblReadmore.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Here
+				JOptionPane.showMessageDialog( IOWindow,
+						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
+						"Filter Info",
+						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+			}
+		});
+		lblReadmore.setBounds(485, 352, 78, 16);
+		 IOWindow.add(lblReadmore);
+		 
+		 JButton btnOpenSql = new JButton("Open SQL", new ImageIcon(MainWindow.class.getResource("/sql.png")));
+		 btnOpenSql.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		try {
+					SQL.getTable();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		 		JOptionPane.showMessageDialog( IOWindow,
+						"DB Was Changed !!!\n"+ "The ip is: "+SQL.get_ip()+"\n"
+						+"The url is: "+SQL.get_url().toString()+"\n"
+						+"The username is: "+SQL.get_user()+"\n"
+						+"The password is: "+SQL.get_password()+"\n",
+						"WOW WOW WOW",
+						JOptionPane.WARNING_MESSAGE);
+		 		SQL.addToDB();
+		 		CreateDB.CreateWifiSamples();
+		 		System.out.println(CreateDB.WifiSamplesDB.size());
+		 		CreateDB.getMacCounter(CreateDB.FullDB);
+		 		CreateDB.getRecords(CreateDB.FullDB);
+		 		NumberOfMAC.setText(""+CreateDB.MacCounter);
+				NumberOfRecords.setText(""+CreateDB.Records);
+		 	}
+		 });
+		 btnOpenSql.setForeground(Color.BLACK);
+		 btnOpenSql.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		 btnOpenSql.setBackground(Color.WHITE);
+		 btnOpenSql.setBounds(376, 6, 150, 50);
+		 IOWindow.add(btnOpenSql);
+		
 		JButton btnNewButton = new JButton("Apply Filters");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBackground(Color.WHITE);
@@ -1056,7 +1118,7 @@ public class MainWindow extends JFrame {
 						ans+=" Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]";  
 					}
 				}
-				JOptionPane.showMessageDialog(IOWindow,
+				JOptionPane.showMessageDialog( IOWindow,
 						"Filter Info: \n "+ans,
 						"Filter Info",
 						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
@@ -1068,7 +1130,7 @@ public class MainWindow extends JFrame {
 		btnFilter.setBounds(18, 86, 62, 55);
 		btnFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IOWindow.setVisible(false);
+				 IOWindow.setVisible(false);
 				AlgoWindow.setVisible(false);
 				FilterWindow.setVisible(true);
 			}
@@ -1082,7 +1144,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FilterWindow.setVisible(false);
 				AlgoWindow.setVisible(false);
-				IOWindow.setVisible(true);
+				 IOWindow.setVisible(true);
 			}
 		});
 		btnFilter.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1093,7 +1155,7 @@ public class MainWindow extends JFrame {
 		btnAlgo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FilterWindow.setVisible(false);
-				IOWindow.setVisible(false);
+				 IOWindow.setVisible(false);
 				AlgoWindow.setVisible(true);
 			}
 		});
@@ -1108,6 +1170,7 @@ public class MainWindow extends JFrame {
 				System.exit(EXIT_ON_CLOSE);
 			}
 		});
+		
 		btnExit.setBounds(18, 415, 67, 29);
 		getContentPane().add(btnExit);
 
@@ -1135,11 +1198,10 @@ public class MainWindow extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						int counter = 0;
 						for (WatchEvent<?> event : watchKey.pollEvents()) {
 							if(event.kind().name().equals("ENTRY_MODIFY")) {
 								CreateDB.ClearDB();
-								JOptionPane.showMessageDialog(IOWindow,
+								JOptionPane.showMessageDialog( IOWindow,
 										"DB Was Changed !!!",
 										"WOW WOW WOW",
 										JOptionPane.WARNING_MESSAGE);
@@ -1192,55 +1254,45 @@ public class MainWindow extends JFrame {
 	public static void main(String[] args) throws IOException {
 		new MainWindow().setVisible(true);
 
-		//		Thread t = new Thread(new Watcher());
-		//		t.start();
-
-
-
-		//		WriteFile tt= new WriteFile();
-		//		tt.ReWriteTheData();
-
-		//		AlgoA a = new AlgoA(3);
-		//		ReadWriteInputAlgo2 RIA2 = new ReadWriteInputAlgo2(INITIAL.getReadPathForAlgoBInput(),3);
-
-
 	}
 	public String FilterInfo(JCheckBox chckbxAnd , JCheckBox chckbxOr, JCheckBox BYID ,JCheckBox GEO, JCheckBox BYTime  ) {
 		String ans = "\n";
 		if(chckbxAnd.isSelected()) {
 			if(BYID.isSelected()) {
-				ans+= "Model : "+txtEnterIdModel.getText()+" ";
+				ans+= "Model : "+txtEnterIdModel.getText()+" \n";
 			}
 			if(GEO.isSelected()) {
-				ans+=" && LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
-						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]";
+				ans+=" \n && LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
+						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]\n";
 			}
 			if(BYTime.isSelected()) {
-				ans+=" && Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]";  
+				ans+=" \n&& Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]\n";  
 			}
 		}
 		else if (chckbxOr.isSelected()) {
 			if(BYID.isSelected()) {
-				ans+= "Model : "+txtEnterIdModel.getText()+" ";
+				ans+= "\n Model : "+txtEnterIdModel.getText()+"\n";
 			}
 			if(GEO.isSelected()) {
-				ans+=" && LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
-						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]";
+				ans+=" \n&& LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
+						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]\n";
 			}
 			if(BYTime.isSelected()) {
-				ans+=" && Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]";  
+				ans+=" \n&& Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]\n";  
 			}
 		}
 		else {
 			if(BYID.isSelected()) {
-				ans+= "Model : "+txtEnterIdModel.getText()+" ";
+				ans+= "\nModel : "+txtEnterIdModel.getText()+" \n";
 			}
 			if(GEO.isSelected()) {
-				ans+=" && LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
-						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]";
+				ans+=" \n LOC: Min[" + txtminLAT.getText()+","+txtminLON.getText()+","+txtminALT.getText()+"]"+
+						" Max[" + txtmaxLAT.getText() +","+txtmaxLON.getText()+","+txtmaxALT.getText()+"]\n";
 			}
 			if(BYTime.isSelected()) {
-				ans+=" && Time: Start["+txtStartTime.getText()+"]"+" End[" + txtEndTime.getText()+ " ]";  
+				ans+=" \n Time: Start["+txtStartTime.getText()+"]"+
+						System.getProperty("line.separator")
+					+"End[" + txtEndTime.getText()+ " ]\n";  
 			}
 		}
 		return ans;
@@ -1250,5 +1302,8 @@ public class MainWindow extends JFrame {
 	}
 	public JLabel getLabel_2() {
 		return KMLIcon;
+	}
+	public JLabel getTxtFilterInfo() {
+		return txtFilterInfo;
 	}
 }
