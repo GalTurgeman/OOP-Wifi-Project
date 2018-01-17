@@ -3,7 +3,7 @@
 <b>------------------------------------------------ Wifi Project ------------------------------------------------<BR></b>
 This Project was made By the Authors :  Gal Turgeman , Mark Antelis ,Mark Gurin.
 
-<b>-------------------------------------------------About The Project--------------------------------------------<Br></b>
+<b>-----------------------------------------------About The Project----------------------------------------------<Br></b>
 The project was build on the base of data analyzing from Android app, 
 The app collect Wifi signals that was in the radius of the client , after the collecting it was export to txt file
 reprocessing in the our java project to csv file and finally exported to kml file , that can include any of the following options
@@ -28,8 +28,8 @@ WriteFile - first it calls the readFile , after the reading is complete the writ
 	moreover that wifis will be sorted in that line by the decreasing order form the highst value of the Signal to the smallest one.
 	NOTE** that the use sets the number of wifis per each line in the INIT.java file.
 KmlWrites - writes the given collection of wifis to kml file. (using JAK directory)
-Filters - that functions send to the kmlWriter the collections to write .
-<B>-----------------------------------------------------------------------------------------------------------</B>
+Filters - that functions send to the kmlWriter the collections to write .<BR>
+<B>------------------------------------------------ScreenShots---------------------------------------------------</B>
 <BR><BR><BR><BR><BR>
 <a href="http://tinypic.com?ref=wbxrar" target="_blank"><img src="http://i65.tinypic.com/wbxrar.jpg" border="0" alt="Image and video hosting by TinyPic"></a>
 <BR>
