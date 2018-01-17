@@ -28,9 +28,8 @@ WriteFile - first it calls the readFile , after the reading is complete the writ
 	moreover that wifis will be sorted in that line by the decreasing order form the highst value of the Signal to the smallest one.
 	NOTE** that the use sets the number of wifis per each line in the INIT.java file.
 KmlWrites - writes the given collection of wifis to kml file. (using JAK directory)
-Filters - that functions send to the kmlWriter the collections to write .<BR>
+Filters - that functions send to the kmlWriter the collections to write .<BR><BR><BR><BR>
 <B>------------------------------------------------ScreenShots---------------------------------------------------</B>
-<BR><BR><BR><BR><BR>
 <a href="http://tinypic.com?ref=wbxrar" target="_blank"><img src="http://i65.tinypic.com/wbxrar.jpg" border="0" alt="Image and video hosting by TinyPic"></a>
 <BR>
 <a href="http://tinypic.com?ref=23kckdl" target="_blank"><img src="http://i64.tinypic.com/23kckdl.jpg" border="0" alt="Image and video hosting by TinyPic"></a>
