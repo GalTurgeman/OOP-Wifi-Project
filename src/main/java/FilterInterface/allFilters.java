@@ -12,7 +12,7 @@ import java.util.LinkedList;
 *	is saved too , to the *.ser file
 	author : @recon
 */
-import main.java.CreateDB;
+import IO.CreateDB;
 import parameters.Wifi;	
 
 public class allFilters implements Serializable{

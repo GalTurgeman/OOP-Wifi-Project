@@ -2,8 +2,7 @@ package Filters;
 
 
 import java.util.LinkedList;
-
-import main.java.ReadFile;
+import IO.ReadFile;
 import parameters.Wifi;
 /**
 This function is filtering the CSV file by the given model name.
@@ -14,7 +13,7 @@ public class FilterByID{
 	public FilterByID(String ModelName){
 		ReadFile fr = new ReadFile();
 		fr.ReadingFile();
-		 ListToKML = new LinkedList<Wifi>();
+		ListToKML = new LinkedList<Wifi>();
 		for(Wifi a : fr.getWifiList()){
 			if(a.getModel().equals(ModelName))ListToKML.add(a);
 		}

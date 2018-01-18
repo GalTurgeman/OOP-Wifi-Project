@@ -7,15 +7,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.LinkedList;
-
-import main.java.CreateDB;
+import IO.CreateDB;
 import parameters.INITIAL;
 import parameters.Parameters;
 import parameters.Wifi;
 
 
 public class AlgoA{
-
 	private static LinkedList<String> wifiParameters;
 	private LinkedList<Wifi> list = new LinkedList<Wifi>();
 	private LinkedList<Wifi> List_With_Same_Mac= new LinkedList<Wifi>();

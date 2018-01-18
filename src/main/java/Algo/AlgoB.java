@@ -2,7 +2,7 @@ package Algo;
  import java.util.Collections;
 import java.util.LinkedList;
 
-import main.java.CreateDB;
+import IO.CreateDB;
 import parameters.Parameters;
 import parameters.Wifi;
 

@@ -1,4 +1,5 @@
-package main.java;
+package IO;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;

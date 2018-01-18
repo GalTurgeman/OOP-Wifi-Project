@@ -1,4 +1,4 @@
-package main.java;
+package IO;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -268,13 +268,5 @@ public class CreateDB {
 		CreateWifiSamples();
 		Records =WifiSamplesDB.size();
 		return Records;
-	}
-	public static void parameters (String [] args) {
-		File f = new File("/Users/gal/git/Wifi_Project/toRead");
-
-		CreateDB c = new CreateDB(f,0);
-		c.CreateWifiSamples();
-		AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a"  , "-20", "b4:ee:b4:36:d2:b0", "-51", "88:dc:96:17:c0:9e", "-51", 3);
-	
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import main.java.CreateDB;
+import IO.CreateDB;
 import parameters.Wifi;
 
 public class AlgoBNews {

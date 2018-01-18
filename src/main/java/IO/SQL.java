@@ -1,4 +1,5 @@
-package main.java;
+package IO;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -97,23 +98,7 @@ public class SQL {
 		}
 		return false;
 	}
-	public static void parameters(String []args) {
-		try {
-			SQL.getTable();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		CreateDB.FullDB.addAll(SqlWifi);
-		CreateDB.CreateWifiSamples();
-		for (int i = 0; i < CreateDB.WifiSamplesDB.size(); i++) {
-			System.out.print(i+": ");
-			for (int j = 0; j < CreateDB.WifiSamplesDB.get(i).size(); j++) {
-				System.out.print(CreateDB.WifiSamplesDB.get(i).get(j));
-			}
-			System.out.println();
-		}
-	}
+
 	public static void addToDB() {
 		CreateDB.FullDB.addAll(SqlWifi);
 		CreateDB.FullDB.sort(new SortByTimeComparator());

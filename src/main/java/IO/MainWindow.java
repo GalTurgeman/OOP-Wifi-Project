@@ -1,4 +1,5 @@
-package main.java;
+package IO;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -41,7 +42,7 @@ import FilterInterface.allFilters;
 import parameters.INITIAL;
 
 public class MainWindow extends JFrame {
-	public File file = new File("/Users/gal");
+	public File file = new File("user.home");
 	public Desktop desktop = Desktop.getDesktop();
 	public static File selFolder;
 	public static File selCombCSV;
@@ -152,7 +153,7 @@ public class MainWindow extends JFrame {
 		NumberOfMAC.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		IOWindow.add(NumberOfMAC);
 
-		JButton OpenFolderbtn = new JButton(new ImageIcon(MainWindow.class.getResource("/folder_open.png")));
+		JButton OpenFolderbtn = new JButton(new ImageIcon("GUI/folder_open.png"));
 		OpenFolderbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		OpenFolderbtn.setText("Open Folder");
 		OpenFolderbtn.setBounds(52, 6, 150, 50);
@@ -161,7 +162,7 @@ public class MainWindow extends JFrame {
 		OpenFolderbtn.setForeground(Color.BLACK);
 
 		OpenFolderbtn.setName("open folder");
-		JButton OpenCSVbtn = new JButton("Open CSV",new ImageIcon(MainWindow.class.getResource("/excel.png")));
+		JButton OpenCSVbtn = new JButton("Open CSV",new ImageIcon("GUI/excel.png"));
 		OpenCSVbtn.setBackground(Color.WHITE);
 		OpenCSVbtn.setForeground(Color.BLACK);
 		OpenCSVbtn.setBounds(214, 6, 150, 50);
@@ -178,7 +179,7 @@ public class MainWindow extends JFrame {
 		RouterIcon.setBackground(Color.WHITE);
 		RouterIcon.setBounds(10, 200, 61, 50);
 		RouterIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		RouterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/router.png")));
+		RouterIcon.setIcon(new ImageIcon("GUI/router.png"));
 		IOWindow.add(RouterIcon);
 
 		JLabel numMAClabel = new JLabel("Number of MACs:");
@@ -197,7 +198,7 @@ public class MainWindow extends JFrame {
 		RecordsIcon.setBackground(Color.WHITE);
 		RecordsIcon.setBounds(10, 260, 50, 50);
 		RecordsIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		RecordsIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/records.png")));
+		RecordsIcon.setIcon(new ImageIcon("GUI/records.png"));
 		IOWindow.add(RecordsIcon);
 
 		JLabel lblFilterInfo = new JLabel("Filter Info");
@@ -220,14 +221,14 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog( IOWindow,
 						"DB was successfully deleted !",
 						"Delete DB",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon("GUI/check_mark.png"));
 				repaint();
 
 			}
 		});
 		delDBIcon.setBounds(24, 374, 64, 64);
 		delDBIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		delDBIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/trash_can.png")));
+		delDBIcon.setIcon(new ImageIcon("GUI/trash_can.png"));
 		IOWindow.add(delDBIcon);
 
 		JLabel DelDBtxt = new JLabel("Delete DB");
@@ -244,7 +245,7 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog( IOWindow,
 						"DB was successfully deleted !",
 						"Delete DB",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon("GUI/check_mark.png"));
 				repaint();
 			}
 		});
@@ -262,14 +263,14 @@ public class MainWindow extends JFrame {
 					JOptionPane.showMessageDialog( IOWindow,
 							"DB is empty!",
 							"DB is empty",
-							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
+							JOptionPane.ERROR_MESSAGE,new ImageIcon("GUI/risk.png"));
 				}
 				else {
 					KmlWriter k = new KmlWriter(CreateDB.getFullDB());
 					JOptionPane.showMessageDialog( IOWindow,
 							"KML was export sucessfuly!\n File in: "+INITIAL.getWritePathForKML(),
 							"KML Export",
-							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+							JOptionPane.PLAIN_MESSAGE,new ImageIcon("GUI/check_mark.png"));
 				}
 			}
 		});
@@ -284,11 +285,11 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog( IOWindow,
 						"KML was export sucessfuly!",
 						"KML Export",
-						JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+						JOptionPane.PLAIN_MESSAGE,new ImageIcon("GUI/check_mark.png"));
 			}
 		});
 		KMLIcon.setBounds(190, 374, 64, 64);
-		KMLIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/location.png")));
+		KMLIcon.setIcon(new ImageIcon("GUI/location.png"));
 		KMLIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		IOWindow.add(KMLIcon);
 
@@ -301,7 +302,7 @@ public class MainWindow extends JFrame {
 					JOptionPane.showMessageDialog( IOWindow,
 							"DB is empty!",
 							"DB is empty",
-							JOptionPane.ERROR_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
+							JOptionPane.ERROR_MESSAGE,new ImageIcon("GUI/risk.png"));
 				}
 				else {
 
@@ -309,7 +310,7 @@ public class MainWindow extends JFrame {
 					JOptionPane.showMessageDialog( IOWindow,
 							"CSV was export sucessfuly!\n File in: "+INITIAL.getSaveToFullDBPath(),
 							"CSV Export",
-							JOptionPane.PLAIN_MESSAGE,new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+							JOptionPane.PLAIN_MESSAGE,new ImageIcon("GUI/check_mark.png"));
 					System.out.println(INITIAL.getSaveToFullDBPath());
 				}
 			}
@@ -320,14 +321,14 @@ public class MainWindow extends JFrame {
 
 		JLabel label_3 = new JLabel("");
 		label_3.setBackground(Color.WHITE);
-		label_3.setIcon(new ImageIcon(MainWindow.class.getResource("/excel.png")));
+		label_3.setIcon(new ImageIcon("GUI/excel.png"));
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label_3.setBounds(382, 374, 64, 64);
 		IOWindow.add(label_3);
 
 		JLabel FilterIcon = new JLabel("");
 		FilterIcon.setBackground(Color.WHITE);
-		FilterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/filter.png")));
+		FilterIcon.setIcon(new ImageIcon("GUI/filter.png"));
 		FilterIcon.setBounds(314, 200, 50, 50);
 		IOWindow.add(FilterIcon);
 
@@ -344,7 +345,7 @@ public class MainWindow extends JFrame {
 				repaint();
 			}
 		});
-		btnUndo.setIcon(new ImageIcon(MainWindow.class.getResource("/backup.png")));
+		btnUndo.setIcon(new ImageIcon("GUI/backup.png"));
 		btnUndo.setBounds(531, 211, 32, 32);
 		IOWindow.add(btnUndo);
 
@@ -361,7 +362,7 @@ public class MainWindow extends JFrame {
 		//				JOptionPane.showMessageDialog(IOWindow,
 		//						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
 		//						"Filter Info",
-		//						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+		//						JOptionPane.INFORMATION_MESSAGE,new ImageIcon("GUI/info.png")));
 		//			}
 		//		});
 		//		lblReadmore.setBounds(485, 338, 78, 16);
@@ -526,7 +527,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnAlgoB_ByString.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnAlgoB_ByString.setIcon(new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+		btnAlgoB_ByString.setIcon(new ImageIcon("GUI/check_mark.png"));
 		btnAlgoB_ByString.setBounds(466, 271, 94, 36);
 		AlgoWindow.add(btnAlgoB_ByString);
 
@@ -547,17 +548,17 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnAlgoB_3MAC.setBackground(Color.WHITE);
-		btnAlgoB_3MAC.setIcon(new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+		btnAlgoB_3MAC.setIcon(new ImageIcon("GUI/check_mark.png"));
 		btnAlgoB_3MAC.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnAlgoB_3MAC.setBounds(466, 343, 94, 36);
 		AlgoWindow.add(btnAlgoB_3MAC);
 
 		JButton AlgoAbtn = new JButton("Run");
 		AlgoAbtn.setBackground(Color.WHITE);
-		AlgoAbtn.setSelectedIcon(new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+		AlgoAbtn.setSelectedIcon(new ImageIcon("GUI/check_mark.png"));
 		AlgoAbtn.setHorizontalAlignment(SwingConstants.LEFT);
 		AlgoAbtn.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		AlgoAbtn.setIcon(new ImageIcon(MainWindow.class.getResource("/check_mark.png")));
+		AlgoAbtn.setIcon(new ImageIcon("GUI/check_mark.png"));
 
 		AlgoAbtn.setBounds(466, 105, 94, 36);
 		AlgoWindow.add(AlgoAbtn);
@@ -594,7 +595,7 @@ public class MainWindow extends JFrame {
 					JOptionPane.showMessageDialog(AlgoWindow,
 							"MAC Address is invalid !!!",
 							"Check Input",
-							JOptionPane.WARNING_MESSAGE,new ImageIcon(MainWindow.class.getResource("/risk.png")));
+							JOptionPane.WARNING_MESSAGE,new ImageIcon("GUI/risk.png"));
 				}
 				else {
 					String n =JOptionPane.showInputDialog("Enter interger to limit Algo A:", 3);
@@ -833,13 +834,13 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog( IOWindow,
 						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
 						"Filter Info",
-						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+						JOptionPane.INFORMATION_MESSAGE,new ImageIcon("GUI/info.png"));
 			}
 		});
 		lblReadmore.setBounds(485, 352, 78, 16);
 		IOWindow.add(lblReadmore);
 
-		JButton btnOpenSql = new JButton("Open SQL", new ImageIcon(MainWindow.class.getResource("/sql.png")));
+		JButton btnOpenSql = new JButton("Open SQL", new ImageIcon("GUI/sql.png"));
 		btnOpenSql.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
@@ -855,7 +856,7 @@ public class MainWindow extends JFrame {
 								+"The username is: "+SQL.get_user()+"\n"
 								+"The password is: "+SQL.get_password()+"\n",
 								"",
-								JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+								JOptionPane.INFORMATION_MESSAGE,new ImageIcon("GUI/info.png"));
 				SQL.addToDB();
 				CreateDB.getMacCounter(CreateDB.FullDB);
 				CreateDB.getRecords(CreateDB.FullDB);
@@ -998,7 +999,7 @@ public class MainWindow extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1.setBackground(Color.WHITE);
 
-		lblNewLabel_1.setIcon(new ImageIcon(MainWindow.class.getResource("/info.png")));
+		lblNewLabel_1.setIcon(new ImageIcon("GUI/info.png"));
 		lblNewLabel_1.setBounds(496, 12, 64, 64);
 		FilterWindow.add(lblNewLabel_1);
 
@@ -1092,7 +1093,7 @@ public class MainWindow extends JFrame {
 				JOptionPane.showMessageDialog( IOWindow,
 						"Filter Info: \n "+ans,
 						"Filter Info",
-						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+						JOptionPane.INFORMATION_MESSAGE,new ImageIcon("GUI/info.png"));
 			}
 		});
 
@@ -1223,11 +1224,13 @@ public class MainWindow extends JFrame {
 	public static void refresh() {
 
 	}
-
-	public static void main(String[] args) throws IOException {
+	public static void main(String []args) throws IOException{
 		new MainWindow().setVisible(true);
-
 	}
+//	public static void main(String[] args) throws IOException {
+//		new MainWindow().setVisible(true);
+//
+//	}
 	public String FilterInfo(JCheckBox chckbxAnd , JCheckBox chckbxOr, JCheckBox BYID ,JCheckBox GEO, JCheckBox BYTime  ) {
 		String ans = "\n";
 		if(chckbxAnd.isSelected()) {
