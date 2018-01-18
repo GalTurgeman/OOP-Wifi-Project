@@ -1,6 +1,12 @@
 package Algo;
 import java.util.Comparator;
 
+/**
+ * Implements {@link Comparator}
+ * Sort {@link LineAlgo2} by its PI.
+ * @author Gal
+ *
+ */
 public class sortByPI implements Comparator<LineAlgo2> {
 
 	@Override
