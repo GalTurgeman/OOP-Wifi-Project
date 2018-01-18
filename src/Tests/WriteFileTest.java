@@ -5,8 +5,8 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
-import IO.WriteFile;
-import Main.Wifi;
+import main.java.WriteFile;
+import parameters.Wifi;
 
 public class WriteFileTest {
 

@@ -1,7 +1,6 @@
 package FilterInterface;
 
-import Main.INITIAL;
-import Main.Wifi;
+import parameters.Wifi;
 
 /**
  *     --- Filters explain ---

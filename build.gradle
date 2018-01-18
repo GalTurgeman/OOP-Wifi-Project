@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+     flatDir {
+       dirs 'libs'
+   }
+}
+
+jar {
+    baseName = 'Wifi_project'
+    version =  '1.1.0'
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+dependencies {
+    compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.0'
+   
+}

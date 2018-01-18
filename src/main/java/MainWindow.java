@@ -1,95 +1,44 @@
-package GUI;
+package main.java;
+import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.CompletionService;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.URL;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Panel;
-import java.awt.Toolkit;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JToolBar;
-import javax.swing.JProgressBar;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
 import Algo.AlgoA;
-import Algo.AlgoB;
 import Algo.AlgoBNews;
-import Algo.ReadWriteInputAlgo2;
 import FilterInterface.allFilters;
-import IO.CreateDB;
-import IO.KmlWriter;
-import IO.SQL;
-import IO.WriteFile;
-import Main.INITIAL;
-import de.micromata.opengis.kml.v_2_2_0.Folder;
-import de.micromata.opengis.kml.v_2_2_0.atom.Link;
-
-import java.awt.Label;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JSeparator;
-import javax.swing.JInternalFrame;
-import javax.swing.JDesktopPane;
-import java.awt.Canvas;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import java.awt.Font;
-import java.awt.Graphics;
-
-import javax.swing.JSlider;
-import javax.swing.JList;
-import javax.swing.JCheckBox;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.JLayeredPane;
-import javax.swing.JFormattedTextField;
+import parameters.INITIAL;
 
 public class MainWindow extends JFrame {
 	public File file = new File("/Users/gal");
@@ -1204,7 +1153,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void run() {
 				try {
-					Path path = Paths.get("/Users/gal/git/Wifi_Project/toRead");
+					Path path = Paths.get("toRead");
 					WatchService watchService;
 					watchService = path.getFileSystem().newWatchService();
 

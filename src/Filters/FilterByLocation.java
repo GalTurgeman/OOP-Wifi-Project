@@ -3,8 +3,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.LinkedList;
 
-import Main.INITIAL;
-import Main.Wifi;
+import parameters.INITIAL;
+import parameters.Wifi;
 
 public class FilterByLocation implements Filter{
 	/**NOTE* : Use this class only on Complete SCV file aka the file that are sorted to N members in one line

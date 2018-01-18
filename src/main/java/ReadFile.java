@@ -1,15 +1,13 @@
-package IO;
+package main.java;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
-import Main.INITIAL;
-import Main.Wifi;
+import parameters.INITIAL;
+import parameters.Wifi;
 
 public class ReadFile {
 
@@ -40,7 +38,7 @@ public class ReadFile {
 
 	}
 
-	/**		the Main function of the ReadFile that make in action the class.
+	/**		the parameters function of the ReadFile that make in action the class.
 	 * @param
 	 */
 	public void ReadingFile(){

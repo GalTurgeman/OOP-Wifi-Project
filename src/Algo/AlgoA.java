@@ -8,10 +8,10 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import IO.CreateDB;
-import Main.INITIAL;
-import Main.Parameters;
-import Main.Wifi;
+import main.java.CreateDB;
+import parameters.INITIAL;
+import parameters.Parameters;
+import parameters.Wifi;
 
 
 public class AlgoA{

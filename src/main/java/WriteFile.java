@@ -1,17 +1,14 @@
-package IO;
+package main.java;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import GUI.MainWindow;
-import Main.INITIAL;
-import Main.Wifi;
-import Main.sortByRSSI;
+import parameters.INITIAL;
+import parameters.Wifi;
+import parameters.sortByRSSI;
 
 
 public class WriteFile {
@@ -27,7 +24,7 @@ public class WriteFile {
 	public WriteFile(){
 		try{
 			fw = new FileWriter(INITIAL.getFileWritePath());
-//			fw = new FileWriter(MainWindow.getSelFolder().getAbsolutePath());
+//			fw = new FileWriter(parametersWindow.getSelFolder().getAbsolutePath());
 			pw = new PrintWriter(fw);
 		}catch(IOException e){
 			System.out.println(e);

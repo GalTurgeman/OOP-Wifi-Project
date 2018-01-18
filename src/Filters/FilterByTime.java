@@ -2,17 +2,16 @@ package Filters;
 import java.io.BufferedReader;
 //import java.io.File;
 import java.io.FileReader;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //import java.util.ArrayList;
 import java.util.LinkedList;
 
-import Main.INITIAL;
-import Main.Wifi;
+import parameters.INITIAL;
+import parameters.Wifi;
 /**
  * This is the Explain how to work with the filter: 
- * in some class (like Main)  run that line --> FilterByTime.filter("2017-10-27 16:16:36", "2017-10-27 16:17:11");
+ * in some class (like parameters)  run that line --> FilterByTime.filter("2017-10-27 16:16:36", "2017-10-27 16:17:11");
  * that line will sort all elements between the time +1 second s.t the time  2017-10-27 16:16:36 will not collect, only from the time 2017-10-27 16:16:37 will be 
  * inserted to the collection.
  * <<NOTE** that the inserted format is very important , wrong inserted line will be executed to error.>> 

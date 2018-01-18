@@ -1,18 +1,14 @@
-package IO;
-import java.io.BufferedReader;
+package main.java;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-import Main.INITIAL;
-import Main.Wifi;
-import de.micromata.*;
 import de.micromata.opengis.kml.v_2_2_0.Document;
 import de.micromata.opengis.kml.v_2_2_0.Icon;
 import de.micromata.opengis.kml.v_2_2_0.Kml;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
+import parameters.INITIAL;
+import parameters.Wifi;
 
 public class KmlWriter {
 

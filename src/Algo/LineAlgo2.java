@@ -1,8 +1,8 @@
 package Algo;
 import java.util.LinkedList;
 
-import Main.Parameters;
-import Main.Wifi;
+import parameters.Parameters;
+import parameters.Wifi;
 /**
  * LineAlgo2 get Input line from no gps file and Line from DB.
  * Calc diff,w1 , and reutrn the PI for this 2 lines.

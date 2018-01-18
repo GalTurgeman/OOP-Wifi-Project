@@ -1,12 +1,11 @@
 package Algo;
 
-import java.awt.LinearGradientPaint;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import IO.CreateDB;
-import Main.Wifi;
+import main.java.CreateDB;
+import parameters.Wifi;
 
 public class AlgoBNews {
 

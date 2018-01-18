@@ -1,8 +1,6 @@
-package Main;
+package parameters;
 import java.io.File;
 import java.util.LinkedList;
-
-import GUI.MainWindow;
 
 
 public class INITIAL {
@@ -17,17 +15,17 @@ public class INITIAL {
 	 */
 
 	private static String ReadPath = "";
-//	private static String ReadPath = MainWindow.getSelFolder().getAbsolutePath();
+//	private static String ReadPath = parametersWindow.getSelFolder().getAbsolutePath();
 	private static String WritePathWigil = "toWrite//WigilComb.csv";
 	private static String WritePathForAlgoA = "toWrite//ALGO_A_File19112017.csv";
-	private static String ReadPathForAlgoBInput ="/Users/gal/Downloads/Ex2/data/TS1/_comb_no_gps_ts1.csv";
-	private static String WritePathForAlgoBInput ="/Users/gal/Desktop/Write_comb_no_gps_ts1.csv";
+	private static String ReadPathForAlgoBInput ="algoB/_comb_no_gps_ts1.csv";
+	private static String WritePathForAlgoBInput ="/toWrite/Write_comb_no_gps_ts1.csv";
 	private static String suffix = ".csv";
 	private static String csvHeader = "MAC,SSID,AuthMode,FirstSeen,Channel,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,Type";
 	private static String modelName = "model=";
 	private static String csvClientHeader = "TIME,ID,LAT,LON,ALT,Number Of Networks";
 	private static String csvClientWifiParameters = "SSID,MAC,Frequency,Signal";
-	private static String SaveToFullDBPath="/Users/gal/Desktop/FinalCSV.csv";
+	private static String SaveToFullDBPath="toWrite/FinalCSV.csv";
 	private static String TempDBPath = "";
 	
 	private static File fileReadPath = new File(ReadPath);

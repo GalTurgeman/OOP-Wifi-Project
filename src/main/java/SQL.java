@@ -1,19 +1,18 @@
-package IO;
+package main.java;
 
-import java.sql.*;
-import java.util.logging.*;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.management.timer.Timer;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.xml.transform.OutputKeys;
-import Main.SortByTimeComparator;
-import Main.Wifi;
+
+import parameters.SortByTimeComparator;
+import parameters.Wifi;
 
 
 public class SQL {
@@ -98,7 +97,7 @@ public class SQL {
 		}
 		return false;
 	}
-	public static void main(String []args) {
+	public static void parameters(String []args) {
 		try {
 			SQL.getTable();
 		} catch (ClassNotFoundException e) {

@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-import Main.Wifi;
+import parameters.Wifi;
 
 public class FilterByTime implements Filter, Serializable{
 	

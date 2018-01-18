@@ -1,4 +1,4 @@
-package IO;
+package main.java;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,20 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.PathMatcher;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
-import javax.xml.bind.DataBindingException;
 
 import Algo.AlgoBNews;
-import Algo.sortByPI;
-import Main.INITIAL;
-import Main.SortByTimeComparator;
-import Main.Wifi;
-import Main.sortByRSSI;
+import parameters.INITIAL;
+import parameters.SortByTimeComparator;
+import parameters.Wifi;
+import parameters.sortByRSSI;
 
 public class CreateDB {
 
@@ -275,7 +269,7 @@ public class CreateDB {
 		Records =WifiSamplesDB.size();
 		return Records;
 	}
-	public static void main (String [] args) {
+	public static void parameters (String [] args) {
 		File f = new File("/Users/gal/git/Wifi_Project/toRead");
 
 		CreateDB c = new CreateDB(f,0);

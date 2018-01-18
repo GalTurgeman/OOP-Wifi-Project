@@ -3,8 +3,8 @@ package Filters;
 
 import java.util.LinkedList;
 
-import IO.ReadFile;
-import Main.Wifi;
+import main.java.ReadFile;
+import parameters.Wifi;
 /**
 This function is filtering the CSV file by the given model name.
 after the filtering you can use @return: nothing returns, ListToKML list , contains the filtered elements.

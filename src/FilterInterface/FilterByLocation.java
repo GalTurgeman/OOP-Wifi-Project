@@ -1,14 +1,13 @@
 package FilterInterface;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.LinkedList;
 
-import Main.Wifi;
-
+import parameters.Wifi;
 
 
-/**The main idea of the filter is to get parameters from the user s.t the lowest geo' point and the highest geo' point ,
+
+/**The parameters idea of the filter is to get parameters from the user s.t the lowest geo' point and the highest geo' point ,
  * and filter the whole data base by that input , finish the filtering with <wifi> collection that holds user request.
  * after that filter the collection can be export to other task , s.t export to file or be filtered again , by new values.
  * 

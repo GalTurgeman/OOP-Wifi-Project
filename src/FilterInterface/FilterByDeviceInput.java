@@ -3,7 +3,7 @@ package FilterInterface;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import Main.Wifi;
+import parameters.Wifi;
 
 public class FilterByDeviceInput implements FilterB, Serializable{
 	private LinkedList<Wifi> resultCollection;

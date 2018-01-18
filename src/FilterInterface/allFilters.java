@@ -1,24 +1,19 @@
 package FilterInterface;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import IO.CreateDB;
-import Main.INITIAL;
-import Main.Wifi;
-import de.micromata.opengis.kml.v_2_2_0.atom.Link;
 /*
-*The Main Filiter that executes other filters by the given options.
+*The parameters Filiter that executes other filters by the given options.
 *	The user input the setting for the filtering in GUI interface s.t he chooses the right filter (By-Time , By-Location, 
 *	By-Device) after he choosed the filter , The data can be filtered only by the setted filter or by another filter.
 *	i.e Filter: By-Device AND By-Time  , Filter: By-Device OR By-Time etc.
 *	at the end The user got his data filterd. and saved to CSV file moreover the settings that was created the filter 
 *	is saved too , to the *.ser file
 	author : @recon
-*/	
+*/
+import main.java.CreateDB;
+import parameters.Wifi;	
 
 public class allFilters implements Serializable{
 	public  String userStartTime , userEndTime ;

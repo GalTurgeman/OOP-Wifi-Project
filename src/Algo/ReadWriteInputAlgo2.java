@@ -1,18 +1,14 @@
 package Algo;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
-import java.nio.Buffer;
 import java.util.LinkedList;
-import java.util.Scanner;
 
-import Main.INITIAL;
-import Main.Parameters;
-import Main.Wifi;
+import parameters.INITIAL;
+import parameters.Parameters;
+import parameters.Wifi;
 
 public class ReadWriteInputAlgo2 {
 	/**
