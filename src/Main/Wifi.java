@@ -161,14 +161,14 @@ public class Wifi implements Serializable {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
-		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Crypt=" + Crypt + ", Time=" + Time  
-				+ ", Channel=" + Channel +  ", RSSI=" + RSSI + ", LAT=" + LAT + ", LON=" + LON +  
-				", ALT=" + ALT + ", Model: "+ model +"]";
-	}
-//	public String toString(){
-//		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Time=" + Time+"]";
+//	public String toString() {
+//		return "Wifi [MAC=" + MAC + ", SSID=" + SSID + ", Crypt=" + Crypt + ", Time=" + Time  
+//				+ ", Channel=" + Channel +  ", RSSI=" + RSSI + ", LAT=" + LAT + ", LON=" + LON +  
+//				", ALT=" + ALT + ", Model: "+ model +"]";
 //	}
+	public String toString(){
+		return "Wifi [MAC=" + MAC + ", Time=" + Time+" , RSSI="+RSSI+"]";
+	}
 	/**@author gal
 	 * Print Only the needed details for google earth view.
 	 * @return SSID MAC Frequency Signal.

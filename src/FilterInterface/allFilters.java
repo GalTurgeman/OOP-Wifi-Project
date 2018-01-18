@@ -26,6 +26,7 @@ public class allFilters implements Serializable{
 	public  double userStarLat , userEndLat , userStarLon , userEndLon, userStartAlt , userEndAlt ;
 	public transient static LinkedList<Wifi> DBi = new LinkedList<Wifi>();
 	boolean save;
+	public boolean _time,_device,_location,_and,_or;
 	//	private boolean timeFilter;
 	//	private boolean deviceFilter;
 	//	private boolean locationFilter;
@@ -43,6 +44,11 @@ public class allFilters implements Serializable{
 		this.userStartAlt = Double.parseDouble(userStartAlt);
 		this.userEndAlt = Double.parseDouble(userEndAlt);
 		this.save = save;
+		this._and = and;
+		this._or=or;
+		this._device=device;
+		this._time=time;
+		this._location=location;
 		//try {
 		//		FileOutputStream fileoutput = new FileOutputStream("/Users/gal/Desktop/1.txt");
 		//		ObjectOutputStream out = new ObjectOutputStream(fileoutput);
@@ -117,6 +123,46 @@ public class allFilters implements Serializable{
 			}
 
 		}
+	}
+
+	public boolean is_time() {
+		return _time;
+	}
+
+	public void set_time(boolean _time) {
+		this._time = _time;
+	}
+
+	public boolean is_device() {
+		return _device;
+	}
+
+	public void set_device(boolean _device) {
+		this._device = _device;
+	}
+
+	public boolean is_location() {
+		return _location;
+	}
+
+	public void set_location(boolean _location) {
+		this._location = _location;
+	}
+
+	public boolean is_and() {
+		return _and;
+	}
+
+	public void set_and(boolean _and) {
+		this._and = _and;
+	}
+
+	public boolean is_or() {
+		return _or;
+	}
+
+	public void set_or(boolean _or) {
+		this._or = _or;
 	}
 
 	private void mergerCollection(LinkedList<Wifi> arr, LinkedList<Wifi> brr){

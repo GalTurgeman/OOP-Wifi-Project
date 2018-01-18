@@ -249,6 +249,10 @@ public class CreateDB {
 		getMacCounter(FullDB);
 	}
 	public static void CreateWifiSamples() {
+		if(!WifiSamplesDB.isEmpty() || FullDB.isEmpty()) {
+			return;
+		}
+
 		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
 		String timeToCompare=FullDB.getFirst().getTime();
 		int place;
@@ -267,19 +271,8 @@ public class CreateDB {
 	}
 	//Lenovo PB2-690Y
 	public static int getRecords(LinkedList<Wifi> fullDB) {
-		if(fullDB.isEmpty())
-			return 0;
-		LinkedList<String> temp = new LinkedList<String>();
-		temp.add(fullDB.getFirst().getTime());
-		int counter=1;
-		for (Wifi wifi : fullDB) {
-
-			if(!temp.contains(wifi.getTime())) {
-				temp.add(wifi.getTime());
-				counter++;
-			}
-		}
-		Records = counter;
+		CreateWifiSamples();
+		Records =WifiSamplesDB.size();
 		return Records;
 	}
 	public static void main (String [] args) {
@@ -288,31 +281,6 @@ public class CreateDB {
 		CreateDB c = new CreateDB(f,0);
 		c.CreateWifiSamples();
 		AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a"  , "-20", "b4:ee:b4:36:d2:b0", "-51", "88:dc:96:17:c0:9e", "-51", 3);
-		
-//		System.out.println("GAL");
-//		LinkedList<Wifi> SameTime = new LinkedList<Wifi>();
-//		LinkedList<LinkedList<Wifi>> HUGE = new LinkedList<LinkedList<Wifi>>();
-//		String timeToCompare=FullDB.getFirst().getTime();
-//		int place;
-//		//If has same time add it to list.
-//		
-//			for (int i = 0; i < FullDB.size()-1; i++) {
-//				if(FullDB.get(i).getTime().equals(FullDB.get(i+1).getTime())) {
-//					SameTime.add(FullDB.get(i));
-//				}
-//				else if(FullDB.get(i).getTime().equals(FullDB.get(i-1).getTime())) {
-//					SameTime.add(FullDB.get(i));
-//					HUGE.add(SameTime);
-//					SameTime = new LinkedList<>();
-//				}
-//			}
-//			for (int i = 0; i < HUGE.size(); i++) {
-//					System.out.println(HUGE.get(i).size()+" ,"+HUGE.get(i));
-//			}
-
-		//		
-
-		//		AlgoBNews b = new AlgoBNews("e4:95:6e:40:87:1a","-20","00:1a:dd:e3:06:e4","-53","00:1a:dd:f5:e9:25","-58", 3);
-
+	
 	}
 }

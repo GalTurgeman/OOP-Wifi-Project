@@ -17,6 +17,11 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CompletionService;
@@ -39,6 +44,8 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Panel;
+import java.awt.Toolkit;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
@@ -74,6 +81,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.JSlider;
 import javax.swing.JList;
 import javax.swing.JCheckBox;
@@ -103,11 +112,15 @@ public class MainWindow extends JFrame {
 	private JTextField txtALGOB_Mac2;
 	private JTextField txtALGOB_Mac3;
 	private JTextField txtALGBSig3;
-	
+	private	JCheckBox checkBoxByTime = new JCheckBox("");
+	private JCheckBox checkboxBYID = new JCheckBox("");
+	private JCheckBox checkBoxBYGEO = new JCheckBox("");
+	private JCheckBox chckbxAnd = new JCheckBox("And");
+	private JCheckBox chckbxOr = new JCheckBox("Or");
 	public static JPanel IOWindow = new JPanel();
 	public static JPanel FilterWindow = new JPanel();
 	public static JPanel AlgoWindow = new JPanel();
-	
+
 	private static String ReadPath = "toRead";
 	private static String WritePath = "toWrite//FullDB.csv";
 	private static ArrayList<File> FoldersPaths = new ArrayList<>();
@@ -167,7 +180,7 @@ public class MainWindow extends JFrame {
 		Line.setBounds(97, 0, 1, 450);
 		Line.setBackground(Color.GRAY);
 		getContentPane().add(Line);
-		
+
 		IOWindow.setBounds(97, 0, 573, 444);
 		getContentPane().add(IOWindow);
 		IOWindow.setBackground(Color.WHITE);
@@ -182,19 +195,19 @@ public class MainWindow extends JFrame {
 		NumberOfRecords.setBackground(Color.WHITE);
 		NumberOfRecords.setBounds(217, 276, 50, 16);
 		NumberOfRecords.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		 IOWindow.add(NumberOfRecords);
+		IOWindow.add(NumberOfRecords);
 
 		JLabel NumberOfMAC = new JLabel("" + CreateDB.MacCounter);
 		NumberOfMAC.setBackground(Color.WHITE);
 		NumberOfMAC.setBounds(217, 223, 50, 16);
 		NumberOfMAC.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		 IOWindow.add(NumberOfMAC);
+		IOWindow.add(NumberOfMAC);
 
 		JButton OpenFolderbtn = new JButton(new ImageIcon(MainWindow.class.getResource("/folder_open.png")));
 		OpenFolderbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		OpenFolderbtn.setText("Open Folder");
 		OpenFolderbtn.setBounds(52, 6, 150, 50);
-		 IOWindow.add(OpenFolderbtn);
+		IOWindow.add(OpenFolderbtn);
 		OpenFolderbtn.setBackground(Color.WHITE);
 		OpenFolderbtn.setForeground(Color.BLACK);
 
@@ -204,46 +217,46 @@ public class MainWindow extends JFrame {
 		OpenCSVbtn.setForeground(Color.BLACK);
 		OpenCSVbtn.setBounds(214, 6, 150, 50);
 		OpenCSVbtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		 IOWindow.add(OpenCSVbtn);
+		IOWindow.add(OpenCSVbtn);
 
 		txtFilterInfo = new JLabel("");
 		txtFilterInfo.setAutoscrolls(true);
 		txtFilterInfo.setBackground(Color.WHITE);
 		txtFilterInfo.setBounds(285, 250, 0, 0);
-		 IOWindow.add(txtFilterInfo);
-		
+		IOWindow.add(txtFilterInfo);
+
 		JLabel RouterIcon = new JLabel("");
 		RouterIcon.setBackground(Color.WHITE);
 		RouterIcon.setBounds(10, 200, 61, 50);
 		RouterIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		RouterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/router.png")));
-		 IOWindow.add(RouterIcon);
+		IOWindow.add(RouterIcon);
 
 		JLabel numMAClabel = new JLabel("Number of MACs:");
 		numMAClabel.setBackground(Color.WHITE);
 		numMAClabel.setBounds(72, 222, 125, 16);
 		numMAClabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 IOWindow.add(numMAClabel);
+		IOWindow.add(numMAClabel);
 
 		JLabel numRecords = new JLabel("Number of records:");
 		numRecords.setBackground(Color.WHITE);
 		numRecords.setBounds(72, 275, 133, 16);
 		numRecords.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		 IOWindow.add(numRecords);
+		IOWindow.add(numRecords);
 
 		JLabel RecordsIcon = new JLabel("");
 		RecordsIcon.setBackground(Color.WHITE);
 		RecordsIcon.setBounds(10, 260, 50, 50);
 		RecordsIcon.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		RecordsIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/records.png")));
-		 IOWindow.add(RecordsIcon);
-			
+		IOWindow.add(RecordsIcon);
+
 		JLabel lblFilterInfo = new JLabel("Filter Info");
 		lblFilterInfo.setBackground(Color.WHITE);
 		lblFilterInfo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblFilterInfo.setBounds(385, 222, 99, 16);
-		 IOWindow.add(lblFilterInfo);
-		
+		IOWindow.add(lblFilterInfo);
+
 		JLabel delDBIcon = new JLabel("");
 		delDBIcon.setBackground(Color.WHITE);
 		delDBIcon.addMouseListener(new MouseAdapter() {
@@ -266,7 +279,7 @@ public class MainWindow extends JFrame {
 		delDBIcon.setBounds(24, 374, 64, 64);
 		delDBIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		delDBIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/trash_can.png")));
-		 IOWindow.add(delDBIcon);
+		IOWindow.add(delDBIcon);
 
 		JLabel DelDBtxt = new JLabel("Delete DB");
 		DelDBtxt.setBackground(Color.WHITE);
@@ -289,7 +302,7 @@ public class MainWindow extends JFrame {
 
 		DelDBtxt.setBounds(92, 395, 89, 24);
 		DelDBtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		 IOWindow.add(DelDBtxt);
+		IOWindow.add(DelDBtxt);
 
 		SaveKMLtxt = new JLabel("Save as KML");
 		SaveKMLtxt.setBackground(Color.WHITE);
@@ -313,7 +326,7 @@ public class MainWindow extends JFrame {
 		});
 		SaveKMLtxt.setBounds(255, 402, 99, 16);
 		SaveKMLtxt.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		 IOWindow.add(SaveKMLtxt);
+		IOWindow.add(SaveKMLtxt);
 		KMLIcon = new JLabel("");
 		KMLIcon.setBackground(Color.WHITE);
 		KMLIcon.addMouseListener(new MouseAdapter() {
@@ -328,7 +341,7 @@ public class MainWindow extends JFrame {
 		KMLIcon.setBounds(190, 374, 64, 64);
 		KMLIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/location.png")));
 		KMLIcon.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		 IOWindow.add(KMLIcon);
+		IOWindow.add(KMLIcon);
 
 		JLabel lblSaveToCsv = new JLabel("Save to CSV");
 		lblSaveToCsv.setBackground(Color.WHITE);
@@ -354,32 +367,29 @@ public class MainWindow extends JFrame {
 		});
 		lblSaveToCsv.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblSaveToCsv.setBounds(438, 395, 99, 22);
-		 IOWindow.add(lblSaveToCsv);
+		IOWindow.add(lblSaveToCsv);
 
 		JLabel label_3 = new JLabel("");
 		label_3.setBackground(Color.WHITE);
 		label_3.setIcon(new ImageIcon(MainWindow.class.getResource("/excel.png")));
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label_3.setBounds(382, 374, 64, 64);
-		 IOWindow.add(label_3);
+		IOWindow.add(label_3);
 
 		JLabel FilterIcon = new JLabel("");
 		FilterIcon.setBackground(Color.WHITE);
 		FilterIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/filter.png")));
 		FilterIcon.setBounds(314, 200, 50, 50);
-		 IOWindow.add(FilterIcon);
+		IOWindow.add(FilterIcon);
 
-		
+
 
 		JLabel btnUndo = new JLabel("");
 		btnUndo.setBackground(Color.WHITE);
 		btnUndo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				CreateDB.Undo();
-				System.out.println("FULL DB : " + CreateDB.FullDB.size());
-				System.out.println("TEMP FULL DB : " + CreateDB.TempFullDB.size());
 				NumberOfMAC.setText(""+CreateDB.MacCounter);
 				NumberOfRecords.setText(""+CreateDB.Records);
 				repaint();
@@ -387,26 +397,26 @@ public class MainWindow extends JFrame {
 		});
 		btnUndo.setIcon(new ImageIcon(MainWindow.class.getResource("/backup.png")));
 		btnUndo.setBounds(531, 211, 32, 32);
-		 IOWindow.add(btnUndo);
+		IOWindow.add(btnUndo);
 
 		Canvas canvas_3 = new Canvas();
 		canvas_3.setBackground(Color.GRAY);
 		canvas_3.setBounds(273, 180, 1, 166);
-		 IOWindow.add(canvas_3);
-		
-//		JLabel lblReadmore = new JLabel("Read more...");
-//		lblReadmore.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				//Here
-//				JOptionPane.showMessageDialog(IOWindow,
-//						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
-//						"Filter Info",
-//						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
-//			}
-//		});
-//		lblReadmore.setBounds(485, 338, 78, 16);
-//		IOWindow.add(lblReadmore);
+		IOWindow.add(canvas_3);
+
+		//		JLabel lblReadmore = new JLabel("Read more...");
+		//		lblReadmore.addMouseListener(new MouseAdapter() {
+		//			@Override
+		//			public void mouseClicked(MouseEvent e) {
+		//				//Here
+		//				JOptionPane.showMessageDialog(IOWindow,
+		//						"Filter Info: \n "+FilterInfo(chckbxAnd, chckbxOr, checkboxBYID, checkBoxBYGEO, checkBoxByTime),
+		//						"Filter Info",
+		//						JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+		//			}
+		//		});
+		//		lblReadmore.setBounds(485, 338, 78, 16);
+		//		IOWindow.add(lblReadmore);
 
 
 		OpenCSVbtn.addActionListener(new ActionListener() {
@@ -648,7 +658,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		
+
 		//FilterWindow
 		JPanel FilterWindow = new JPanel();
 		FilterWindow.setBounds(100, 0, 573, 444);
@@ -747,11 +757,9 @@ public class MainWindow extends JFrame {
 		txtminALT.setBounds(335, 297, 73, 26);
 		FilterWindow.add(txtminALT);
 
-		JCheckBox checkBoxByTime = new JCheckBox("");
+
 		checkBoxByTime.setBackground(Color.WHITE);
-		JCheckBox checkboxBYID = new JCheckBox("");
 		checkboxBYID.setBackground(Color.WHITE);
-		JCheckBox checkBoxBYGEO = new JCheckBox("");
 		checkBoxBYGEO.setBackground(Color.WHITE);
 
 
@@ -809,13 +817,12 @@ public class MainWindow extends JFrame {
 		checkBoxBYGEO.setBounds(10, 308, 28, 23);
 		FilterWindow.add(checkBoxBYGEO);
 
-		JCheckBox chckbxAnd = new JCheckBox("And");
+
 		chckbxAnd.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		chckbxAnd.setBackground(Color.WHITE);
 		chckbxAnd.setBounds(151, 42, 60, 23);
 		FilterWindow.add(chckbxAnd);
 
-		JCheckBox chckbxOr = new JCheckBox("Or");
 		chckbxOr.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		chckbxOr.setBackground(Color.WHITE);
 		chckbxOr.addItemListener(new ItemListener() {
@@ -868,7 +875,7 @@ public class MainWindow extends JFrame {
 		checkBox_1.setBackground(Color.WHITE);
 		checkBox_1.setBounds(10, 289, 60, 23);
 		FilterWindow.add(checkBox_1);
-		
+
 		JLabel lblReadmore = new JLabel("Read more...");
 		lblReadmore.addMouseListener(new MouseAdapter() {
 			@Override
@@ -881,39 +888,38 @@ public class MainWindow extends JFrame {
 			}
 		});
 		lblReadmore.setBounds(485, 352, 78, 16);
-		 IOWindow.add(lblReadmore);
-		 
-		 JButton btnOpenSql = new JButton("Open SQL", new ImageIcon(MainWindow.class.getResource("/sql.png")));
-		 btnOpenSql.addActionListener(new ActionListener() {
-		 	public void actionPerformed(ActionEvent e) {
-		 		try {
+		IOWindow.add(lblReadmore);
+
+		JButton btnOpenSql = new JButton("Open SQL", new ImageIcon(MainWindow.class.getResource("/sql.png")));
+		btnOpenSql.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try { 
 					SQL.getTable();
+
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-		 		JOptionPane.showMessageDialog( IOWindow,
-						"DB Was Changed !!!\n"+ "The ip is: "+SQL.get_ip()+"\n"
-						+"The url is: "+SQL.get_url().toString()+"\n"
-						+"The username is: "+SQL.get_user()+"\n"
-						+"The password is: "+SQL.get_password()+"\n",
-						"WOW WOW WOW",
-						JOptionPane.WARNING_MESSAGE);
-		 		SQL.addToDB();
-		 		CreateDB.CreateWifiSamples();
-		 		System.out.println(CreateDB.WifiSamplesDB.size());
-		 		CreateDB.getMacCounter(CreateDB.FullDB);
-		 		CreateDB.getRecords(CreateDB.FullDB);
-		 		NumberOfMAC.setText(""+CreateDB.MacCounter);
+				JOptionPane.showMessageDialog( IOWindow,
+						"Database was loaded !\n"+ "The ip is: "+SQL.get_ip()+"\n"
+								+"The url is: "+SQL.get_url().toString()+"\n"
+								+"The username is: "+SQL.get_user()+"\n"
+								+"The password is: "+SQL.get_password()+"\n",
+								"",
+								JOptionPane.INFORMATION_MESSAGE,new ImageIcon(MainWindow.class.getResource("/info.png")));
+				SQL.addToDB();
+				CreateDB.getMacCounter(CreateDB.FullDB);
+				CreateDB.getRecords(CreateDB.FullDB);
+				NumberOfMAC.setText(""+CreateDB.MacCounter);
 				NumberOfRecords.setText(""+CreateDB.Records);
-		 	}
-		 });
-		 btnOpenSql.setForeground(Color.BLACK);
-		 btnOpenSql.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		 btnOpenSql.setBackground(Color.WHITE);
-		 btnOpenSql.setBounds(376, 6, 150, 50);
-		 IOWindow.add(btnOpenSql);
-		
+			}
+		});
+		btnOpenSql.setForeground(Color.BLACK);
+		btnOpenSql.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnOpenSql.setBackground(Color.WHITE);
+		btnOpenSql.setBounds(376, 6, 150, 50);
+		IOWindow.add(btnOpenSql);
+
 		JButton btnNewButton = new JButton("Apply Filters");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBackground(Color.WHITE);
@@ -959,10 +965,10 @@ public class MainWindow extends JFrame {
 					CreateDB.FullDB.addAll(filter338.resultColl);
 					System.out.println("FILTER : " + filter338.resultColl.size());
 					System.out.println("CREATE DB " + CreateDB.FullDB.size());
-					NumberOfMAC.setText(""+CreateDB.MacCounter);
-					NumberOfRecords.setText(""+CreateDB.Records);
-					System.out.println("MAC COUNTER : " + CreateDB.MacCounter);
-					System.out.println("RECORDS NUMBER : " +CreateDB.Records);
+
+					NumberOfMAC.setText(""+CreateDB.getMacCounter(CreateDB.FullDB));
+					NumberOfRecords.setText(""+CreateDB.getRecords(CreateDB.FullDB));
+
 					repaint();
 				}
 			}
@@ -977,11 +983,20 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				allFilters al = null;
 				try {
-					FileInputStream fileIn = new FileInputStream("/Users/gal/Desktop/1.ser");
+					JFileChooser jfc;
+					jfc = new JFileChooser();     
+					File f = new File(System.getProperty("user.home"));
+					jfc.setCurrentDirectory(f);
+					jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					jfc.setFileFilter(new FileNameExtensionFilter("SER Files only", "ser","SER"));
+					jfc.showOpenDialog(btnLoadFilter);
+					FileInputStream fileIn = new FileInputStream(jfc.getSelectedFile().getAbsolutePath());
 					ObjectInputStream in = new ObjectInputStream(fileIn);
 					al = (allFilters)in.readObject();
+					SetFilter(al);
 					in.close();
 					fileIn.close();
+
 				} catch (IOException i) {
 					System.out.println(i.getMessage());
 					return;
@@ -1007,7 +1022,14 @@ public class MainWindow extends JFrame {
 						txtminLAT.getText(), txtmaxLAT.getText(), txtminLON.getText(), 
 						txtmaxLON.getText(), txtminALT.getText(),txtmaxALT.getText()); 
 				try {
-					FileOutputStream fileoutput = new FileOutputStream("/Users/gal/Desktop/1.ser");
+					JFileChooser jfc;
+					jfc = new JFileChooser();     
+					File f = new File(System.getProperty("user.home"));
+					jfc.setCurrentDirectory(f);
+					jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					jfc.setFileFilter(new FileNameExtensionFilter("SER Files only", "ser","SER"));
+					jfc.showSaveDialog(btnSaveFilter);
+					FileOutputStream fileoutput = new FileOutputStream(jfc.getSelectedFile().getAbsolutePath()+".ser");
 					ObjectOutputStream out = new ObjectOutputStream(fileoutput);
 					out.writeObject(a);
 					out.close();
@@ -1130,7 +1152,7 @@ public class MainWindow extends JFrame {
 		btnFilter.setBounds(18, 86, 62, 55);
 		btnFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 IOWindow.setVisible(false);
+				IOWindow.setVisible(false);
 				AlgoWindow.setVisible(false);
 				FilterWindow.setVisible(true);
 			}
@@ -1144,7 +1166,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FilterWindow.setVisible(false);
 				AlgoWindow.setVisible(false);
-				 IOWindow.setVisible(true);
+				IOWindow.setVisible(true);
 			}
 		});
 		btnFilter.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1155,7 +1177,7 @@ public class MainWindow extends JFrame {
 		btnAlgo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FilterWindow.setVisible(false);
-				 IOWindow.setVisible(false);
+				IOWindow.setVisible(false);
 				AlgoWindow.setVisible(true);
 			}
 		});
@@ -1170,9 +1192,11 @@ public class MainWindow extends JFrame {
 				System.exit(EXIT_ON_CLOSE);
 			}
 		});
-		
+
 		btnExit.setBounds(18, 415, 67, 29);
 		getContentPane().add(btnExit);
+
+
 
 
 		new Thread(new Runnable() {
@@ -1292,7 +1316,7 @@ public class MainWindow extends JFrame {
 			if(BYTime.isSelected()) {
 				ans+=" \n Time: Start["+txtStartTime.getText()+"]"+
 						System.getProperty("line.separator")
-					+"End[" + txtEndTime.getText()+ " ]\n";  
+				+"End[" + txtEndTime.getText()+ " ]\n";  
 			}
 		}
 		return ans;
@@ -1305,5 +1329,47 @@ public class MainWindow extends JFrame {
 	}
 	public JLabel getTxtFilterInfo() {
 		return txtFilterInfo;
+	}
+	public void SetFilter(allFilters a) {
+		if(a._and==true) {
+			chckbxAnd.setSelected(true);
+		}
+		if(a._or==true)
+			chckbxOr.setSelected(true);
+		if(a._device==true)
+			checkboxBYID.setSelected(true);
+		if(a._location==true) {
+			checkBoxBYGEO.setSelected(true);
+		}
+		if(a._time==true)
+			checkBoxByTime.setEnabled(true);
+		if(!a.userDevice.isEmpty()) {
+			txtEnterIdModel.setText(a.userDevice);
+		}
+		if(!(a.userStarLat==0)) {
+			txtminALT.setText(""+a.userStarLat);
+		}
+		if(!(a.userStarLon==0)) {
+			txtminLON.setText(""+a.userStarLon);
+		}
+		if(!(a.userStartAlt==0)) {
+			txtminALT.setText(""+a.userStartAlt);
+		}
+		if(!(a.userEndAlt==0)) {
+			txtmaxALT.setText(""+a.userEndAlt);
+		}
+		if(!(a.userEndLat==0)) {
+			txtmaxLAT.setText(""+a.userEndLat);
+		}
+		if(!(a.userEndLon==0)) {
+			txtmaxLON.setText(""+a.userEndLon);
+		}
+		if(!a.userStartTime.isEmpty()) {
+			txtStartTime.setText(a.userStartTime);
+		}
+		if(!a.userEndTime.isEmpty()) {
+			txtEndTime.setText(a.userEndTime);
+		}
+	
 	}
 }

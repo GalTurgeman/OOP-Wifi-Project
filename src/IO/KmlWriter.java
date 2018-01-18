@@ -45,22 +45,29 @@ public class KmlWriter {
 		Placemark p = null;
 
 		Icon CellSignal = new Icon().withId("CellSignal");
-		CellSignal.setHref("/Users/gal/git/Wifi_Project/icons/Cellular.png");
+//		CellSignal.setHref("/Users/gal/git/Wifi_Project/icons/Cellular.png");
+		CellSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/Cellular_zpsjrq8caum.png");
 		
 		Icon FullSignal = new Icon().withId("FullSignal");
-		FullSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Full.png");
+//		FullSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Full.png");
+		FullSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-Full_zpsupznj0tv.png");
 		
 		Icon ThreeBarsSignal = new Icon().withId("3Signal");
-		ThreeBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-3-bars.png");
+//		ThreeBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-3-bars.png");
+		ThreeBarsSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-3-bars_zpsrb0wxunf.png");
 		
 		Icon TwoBarsSignal = new Icon().withId("2Signal");
-		TwoBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-2-bars.png");
-		
+//		TwoBarsSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-2-bars.png");
+		TwoBarsSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-2-bars_zpssgvhsp70.png");
+
 		Icon OneBarSignal = new Icon().withId("1Signal");
-		OneBarSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-1-bar.png");
-		
+//		OneBarSignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-1-bar.png");
+		OneBarSignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-1-bar_zpso0hexdq7.png");
+
 		Icon EmptySignal = new Icon().withId("NoSignal");
-		EmptySignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Empty.png");
+//		EmptySignal.setHref("/Users/gal/git/Wifi_Project/icons/wifi-Empty.png");
+		EmptySignal.setHref("http://i44.photobucket.com/albums/f29/galt1054/wifi-Empty_zpsbxgdhv7a.png");
+
 		for(int i=0; i<ls.size(); i++)
 		{
 	
