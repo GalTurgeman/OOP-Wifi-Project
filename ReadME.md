@@ -6,10 +6,11 @@ This Project was made By the Authors :  Gal Turgeman , Mark Antelis ,Mark Gurin.
 <b>-----------------------------------------------About The Project----------------------------------------------<Br></b>
 The project was build on the base of data analyzing from Android app, 
 The app collect Wifi signals that was in the radius of the client , after the collecting it was export to txt file
-reprocessing in the our java project to csv file and finally exported to kml file , that can include any of the following options
-1)filtered by given Location s.t the point latitude  longitude 
-2) filtered by the Time 
-3) filtered by the Name of the device.
+reprocessing in the our java project to csv file and finally exported to kml file , that can include any of the following options:
+	<BR>
+1)filtered by given Location s.t the point latitude  longitude <BR>
+2) filtered by the Time <BR>
+3) filtered by the Name of the device.<BR>
 
 <b>-------------------------------------------------Installation -------------------------------------------------<br></b>
 in the project you can find the src folder , the toRead and the toWrite folders.
